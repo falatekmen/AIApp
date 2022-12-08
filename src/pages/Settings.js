@@ -1,10 +1,13 @@
 import React from "react";
-import { SafeAreaView, Text } from "react-native";
+import { SafeAreaView, Text, TouchableOpacity } from "react-native";
 
-function Settings() {
+function Settings({navigation}) {
     return (
-        <SafeAreaView style={{backgroundColor: 'pink', flex: 1}}>
-            <Text>Hello Settings</Text>
+        <SafeAreaView style={{backgroundColor: 'black', flex: 1}}>
+            <TouchableOpacity style={{backgroundColor: 'red', width: 30, height: 30}}
+                    onPress={() => {
+                        navigation.goBack()
+                    }}></TouchableOpacity>
         </SafeAreaView>
     );
 }
