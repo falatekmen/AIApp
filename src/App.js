@@ -11,9 +11,9 @@ function App() {
     return (
     <NavigationContainer>
         <Stack.Navigator
-        //  screenOptions={{
-        //    headerShown: false,
-        //  }}
+         screenOptions={{
+           headerShown: false,
+         }}
         >
             <Stack.Screen name="MainPage" component={Main} />
             <Stack.Screen name="SettingsPage" component={Settings} />

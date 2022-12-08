@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList, SafeAreaView } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useState } from 'react'
 import { Configuration, OpenAIApi } from "openai"
 import Settings from '../../src/assets/svgs/settings.svg'
@@ -49,24 +49,15 @@ const Main = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <View style={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS == "android" ? "height" : "padding"}
+                style={styles.container}>
                 <TouchableOpacity style={styles.settingsButton}
                     onPress={() => {
                         navigation.navigate("SettingsPage")
                     }}>
                     <Settings width={'70%'} height={'70%'} />
                 </TouchableOpacity>
-                <View style={styles.wrapperContainer}>
-                    <TextInput
-                        value={text}
-                        onChangeText={setText}
-                        style={styles.input}
-                    />
-                    <TouchableOpacity style={styles.button} onPress={onPress}>
-                        <Send width={'60%'} height={'60%'} />
-                    </TouchableOpacity>
-
-                </View>
 
                 <View style={styles.chatArea}>
                     <FlatList
@@ -84,7 +75,19 @@ const Main = ({ navigation }) => {
                     />
                     <ActivityIndicator size={"large"} color={"white"} animating={loading} />
                 </View>
-            </View>
+                <View style={styles.wrapperContainer}>
+                    <TextInput
+                        value={text}
+                        onChangeText={setText}
+                        style={styles.input}
+                        multiline
+                    />
+                    <TouchableOpacity style={styles.button} onPress={onPress}>
+                        <Send width={'60%'} height={'60%'} alignSelf={'center'} />
+                    </TouchableOpacity>
+
+                </View>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     )
 }
@@ -103,38 +106,26 @@ const styles = StyleSheet.create({
     settingsButton: {
         height: units.height / 20,
         width: units.width / 10,
-        borderWidth: 1,
-        borderColor: "#5ff736",
         alignSelf: 'flex-end',
         justifyContent: "center",
         alignItems: "center",
         borderRadius: units.height / 99,
         marginVertical: units.height / 95,
         marginEnd: units.height / 50,
-        
+
     },
     wrapperContainer: {
         flexDirection: 'row',
         alignSelf: 'center'
     },
-    input: {
-        borderLeftWidth:1,
-        borderBottomWidth:1,
-        borderTopWidth: 1,
-        borderColor: "#5ff736",
-        marginTop: units.height / 90,
-        alignSelf: "center",
-        height: units.height / 20,
-        width: units.width / 1.25,
-        backgroundColor: 'black',
-        borderTopLeftRadius: units.height / 99,
-        borderBottomLeftRadius: units.height / 99,
-        color: 'white'
-    },
+
     button: {
-        height: units.height / 20,
+
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderRightWidth: 1,
+        height: units.height / 18,
         width: units.width / 10,
-        borderWidth: 1,
         borderColor: "#5ff736",
         alignSelf: "center",
         justifyContent: "center",
@@ -142,17 +133,33 @@ const styles = StyleSheet.create({
         marginTop: units.height / 90,
         borderTopRightRadius: units.height / 99,
         borderBottomRightRadius: units.height / 99,
+        marginBottom: 50
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: "#5ff736",
+        marginTop: units.height / 90,
+        alignSelf: "center",
+        height: units.height / 18,
+        width: units.width / 1.25,
+        backgroundColor: 'black',
+        borderTopLeftRadius: units.height / 99,
+        borderBottomLeftRadius: units.height / 99,
+        color: 'white',
+        fontSize: 18,
+        marginBottom: 50,
+        paddingTop: 5
     },
     chatArea: {
         backgroundColor: "black",
-        height: units.height / 1.6,
+        height: units.height / 1,
         width: units.width / 1.125,
         borderWidth: 1,
         borderColor: "#5ff736",
         borderRadius: units.height / 99,
         alignSelf: "center",
-        marginTop: units.height / 20,
-        padding: units.height / 72,
+        marginTop: units.height / 95,
+        flexShrink: 1,
     },
 })
 
