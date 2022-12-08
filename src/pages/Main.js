@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Configuration, OpenAIApi } from "openai"
 import Settings from '../../src/assets/svgs/settings.svg'
 import Send from '../../src/assets/svgs/send.svg'
+import LottieView from 'lottie-react-native'
 
 import { units } from "../theme/Units"
 
@@ -25,22 +26,22 @@ const Main = ({ navigation }) => {
     const onPress = async () => {
         setLoading(true)
         setConversation(prev => [...prev, text])
-        await openai.createCompletion({
-            model: "text-davinci-003",
-            prompt: text,
-            temperature: 0.7,
-            max_tokens: 256,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-        }).then((response) => {
-            setLoading(false)
-            return JSON.parse(response.request._response)
-        }).then((response) => {
-            console.log(response.choices[0].text)
-            setConversation(prev => [...prev, response.choices[0].text.trim()])
-            console.log(conversation)
-        })
+        // await openai.createCompletion({
+        //     model: "text-davinci-003",
+        //     prompt: text,
+        //     temperature: 0.7,
+        //     max_tokens: 256,
+        //     top_p: 1,
+        //     frequency_penalty: 0,
+        //     presence_penalty: 0,
+        // }).then((response) => {
+        //     setLoading(false)
+        //     return JSON.parse(response.request._response)
+        // }).then((response) => {
+        //     console.log(response.choices[0].text)
+        //     setConversation(prev => [...prev, response.choices[0].text.trim()])
+        //     console.log(conversation)
+        // })
 
 
         // setConversation(response)
@@ -60,20 +61,10 @@ const Main = ({ navigation }) => {
                 </TouchableOpacity>
 
                 <View style={styles.chatArea}>
-                    <FlatList
-                        data={conversation}
-                        renderItem={({ item }) => {
-                            console.log(item)
-                            return (
-                                <Text style={{
-                                    color: "white",
-                                }}>
-                                    {item}
-                                </Text>
-                            )
-                        }}
-                    />
-                    <ActivityIndicator size={"large"} color={"white"} animating={loading} />
+                  
+                    <LottieView 
+                    source={require('../assets/animation/loading.json')} autoPlay loop />
+                   
                 </View>
                 <View style={styles.wrapperContainer}>
                     <TextInput
