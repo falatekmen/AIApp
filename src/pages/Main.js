@@ -12,38 +12,23 @@ import { units } from "../theme/Units"
 
 const Main = ({ navigation }) => {
 
-    const data = 123
-
-    const dispatch = useDispatch()
-
-    const reduxOnPress = () => {
-        dispatch(setFavorited(data))
-    }
-
-    console.log(useSelector(favoritedSelector))
-
-
-
-
-
-
-
     const [text, setText] = useState("")
     const [conversation, setConversation] = useState([])
     const [loading, setLoading] = useState(false)
-
-
+    const [list, setList] = useState()
     const flatListRef = useRef()
     const inputRef = useRef()
+
+    const dispatch = useDispatch()
+
     // https://beta.openai.com/docs/api-reference/authentication ->const response = await openai.listEngines();
 
 
-    // burdaki sorudada daha iyi kullanılmış https://www.reddit.com/r/reactnative/comments/ykhja6/anyone_used_openai_with_react_native_before_im/
     const configuration = new Configuration({
-        apiKey: "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",
+        apiKey: "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",
     });
-    const openai = new OpenAIApi(configuration);
 
+    const openai = new OpenAIApi(configuration);
 
     const onPress = async () => {
         inputRef.current.clear() // text inputu temizlemek için
@@ -60,15 +45,21 @@ const Main = ({ navigation }) => {
             frequency_penalty: 0,
             presence_penalty: 0,
         }).then((response) => {
+            setConversation(prev => [...prev, response.data.choices[0].text.trim()])
             setLoading(false)
-            return JSON.parse(response.request._response)
-        }).then((response) => {
-            console.log(response.choices[0].text)
-            setConversation(prev => [...prev, response.choices[0].text.trim()])
         })
+
+        setText("")
         flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
     }
 
+    const listelee = async () => {
+
+        const response = await openai.listModels()
+        setList(response.data)
+    }
+
+    console.log(list)
 
     const renderChat = ({ item, index }) => {
         if (index % 2 == 0) {
@@ -98,7 +89,8 @@ const Main = ({ navigation }) => {
             >
                 <TouchableOpacity style={styles.settingsButton}
                     onPress={() => {
-                        navigation.navigate("SettingsPage")
+                        // navigation.navigate("SettingsPage")
+                        listelee()
                     }}>
                     <Settings width={'70%'} height={'70%'} />
                 </TouchableOpacity>
@@ -109,14 +101,17 @@ const Main = ({ navigation }) => {
                         ref={flatListRef} //
                         ListFooterComponent={() => { // flatlist'in en altında boşluk olmasını sağlamak için
                             return (
-                                <View style={{ flex: 1, height: units.height / 17 }} />
+                                <View style={{ flex: 1, height: units.height / 10, marginBottom: 5 }}>
+                                    {
+                                        loading && <LottieView
+                                            source={require('../assets/animation/loading.json')} autoPlay loop />
+                                    }
+                                </View>
+
                             )
                         }}
                     />
-                    {
-                        loading && <LottieView
-                            source={require('../assets/animation/loading.json')} autoPlay loop />
-                    }
+
                 </View>
                 <View style={styles.inputWrapper}>
                     <TextInput
@@ -126,12 +121,12 @@ const Main = ({ navigation }) => {
                         multiline
                         ref={inputRef}
                     />
-                    <TouchableOpacity 
-                    style={styles.button} 
-                    onPress={onPress}
-                    // onLongPress={}
-                     >
-                        <Send width={'60%'} height={'60%'} alignSelf={'center'} />
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={onPress}
+                        onLongPress={() => { setConversation([]) }}
+                    >
+                        <Send width={units.width / 20} height={units.width / 20} alignSelf={'center'} />
                     </TouchableOpacity>
                 </View>
             </KeyboardAvoidingView>
@@ -160,9 +155,8 @@ const styles = StyleSheet.create({
         flexShrink: 1,
     },
     inputWrapper: {
-        // height: units.height / 18,
         maxHeight: units.height / 8,
-        width: units.width / 1.125 - units.width / 10,
+        width: units.width / 1.125,
         flexDirection: 'row',
         borderWidth: 1,
         borderColor: "#5ff736",
@@ -171,7 +165,9 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: units.height / 99,
         borderBottomLeftRadius: units.height / 99,
         marginBottom: units.height / 12,
-        marginLeft: (units.width - units.width / 1.125) / 2
+        borderTopRightRadius: units.height / 99,
+        borderBottomRightRadius: units.height / 99,
+        alignSelf: "center"
     },
     input: {
         width: units.width / 1.125 - units.width / 10 - 1,
@@ -179,17 +175,13 @@ const styles = StyleSheet.create({
         paddingVertical: units.height / 200,
     },
     button: {
-        borderTopWidth: 1,
-        borderBottomWidth: 1,
-        borderRightWidth: 1,
-        height: units.height / 18,
+        minHeight: units.height / 18,
         width: units.width / 10,
         borderColor: "#5ff736",
         justifyContent: "center",
         alignItems: "center",
         alignSelf: "center",
-        borderTopRightRadius: units.height / 99,
-        borderBottomRightRadius: units.height / 99,
+        borderLeftWidth: 1
     },
     settingsButton: {
         height: units.height / 20,
