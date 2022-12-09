@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Configuration, OpenAIApi } from "openai"
 import Settings from '../../src/assets/svgs/settings.svg'
 import Send from '../../src/assets/svgs/send.svg'
@@ -29,22 +29,28 @@ const Main = ({ navigation }) => {
 
 
     const [text, setText] = useState("")
-    const [conversation, setConversation] = useState("")
+    const [conversation, setConversation] = useState([])
     const [loading, setLoading] = useState(false)
 
+
+    const flatListRef = useRef()
+    const inputRef = useRef()
     // https://beta.openai.com/docs/api-reference/authentication ->const response = await openai.listEngines();
 
 
     // burdaki sorudada daha iyi kullanılmış https://www.reddit.com/r/reactnative/comments/ykhja6/anyone_used_openai_with_react_native_before_im/
     const configuration = new Configuration({
-        apiKey: "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",
+        apiKey: "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",
     });
     const openai = new OpenAIApi(configuration);
 
 
     const onPress = async () => {
+        inputRef.current.clear() // text inputu temizlemek için
         setLoading(true)
         setConversation(prev => [...prev, text])
+        flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
+
         await openai.createCompletion({
             model: "text-davinci-003",
             prompt: text,
@@ -59,37 +65,58 @@ const Main = ({ navigation }) => {
         }).then((response) => {
             console.log(response.choices[0].text)
             setConversation(prev => [...prev, response.choices[0].text.trim()])
-            console.log(conversation)
         })
+        flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
+    }
 
 
-        setConversation(response)
-        console.log(response)
+    const renderChat = ({ item, index }) => {
+        if (index % 2 == 0) {
+            return (
+                <Text
+                    selectable={true}
+                    style={{ color: "white", marginLeft: units.width / 72, marginTop: units.height / 120 }}>
+                    {">"} {item}
+                </Text>
+            )
+        } else {
+            return (
+                <Text
+                    selectable={true}
+                    style={{ color: "#5ff736", marginLeft: units.width / 72 }} >
+                    {">"} <Text style={{ color: "white" }} >{item} </Text>
+                </Text>
+            )
+        }
     }
 
     return (
         <SafeAreaView style={styles.safeArea}>
             <KeyboardAvoidingView
                 behavior={Platform.OS == "android" ? "height" : "padding"}
-                style={styles.container}>
-
-                <TouchableOpacity
-                    style={{ backgroundColor: 'red', width: 30, height: 60 }}
-                    onPress={reduxOnPress}>
-                </TouchableOpacity>
-
+                style={styles.container}
+            >
                 <TouchableOpacity style={styles.settingsButton}
                     onPress={() => {
                         navigation.navigate("SettingsPage")
                     }}>
                     <Settings width={'70%'} height={'70%'} />
                 </TouchableOpacity>
-
                 <View style={styles.chatArea}>
-
-                    <LottieView
-                        source={require('../assets/animation/loading.json')} autoPlay loop />
-
+                    <FlatList
+                        data={conversation}
+                        renderItem={renderChat}
+                        ref={flatListRef} //
+                        ListFooterComponent={() => { // flatlist'in en altında boşluk olmasını sağlamak için
+                            return (
+                                <View style={{ flex: 1, height: units.height / 17 }} />
+                            )
+                        }}
+                    />
+                    {
+                        loading && <LottieView
+                            source={require('../assets/animation/loading.json')} autoPlay loop />
+                    }
                 </View>
                 <View style={styles.wrapperContainer}>
                     <TextInput
@@ -97,11 +124,11 @@ const Main = ({ navigation }) => {
                         onChangeText={setText}
                         style={styles.input}
                         multiline
+                        ref={inputRef}
                     />
                     <TouchableOpacity style={styles.button} onPress={onPress}>
                         <Send width={'60%'} height={'60%'} alignSelf={'center'} />
                     </TouchableOpacity>
-
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
@@ -128,15 +155,12 @@ const styles = StyleSheet.create({
         borderRadius: units.height / 99,
         marginVertical: units.height / 95,
         marginEnd: units.height / 50,
-
     },
     wrapperContainer: {
         flexDirection: 'row',
         alignSelf: 'center'
     },
-
     button: {
-
         borderTopWidth: 1,
         borderBottomWidth: 1,
         borderRightWidth: 1,
@@ -162,7 +186,6 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: units.height / 99,
         borderBottomLeftRadius: units.height / 99,
         color: 'white',
-        fontSize: 18,
         marginBottom: 50,
         paddingTop: 5
     },
