@@ -118,7 +118,7 @@ const Main = ({ navigation }) => {
                             source={require('../assets/animation/loading.json')} autoPlay loop />
                     }
                 </View>
-                <View style={styles.wrapperContainer}>
+                <View style={styles.inputWrapper}>
                     <TextInput
                         value={text}
                         onChangeText={setText}
@@ -126,7 +126,11 @@ const Main = ({ navigation }) => {
                         multiline
                         ref={inputRef}
                     />
-                    <TouchableOpacity style={styles.button} onPress={onPress}>
+                    <TouchableOpacity 
+                    style={styles.button} 
+                    onPress={onPress}
+                    // onLongPress={}
+                     >
                         <Send width={'60%'} height={'60%'} alignSelf={'center'} />
                     </TouchableOpacity>
                 </View>
@@ -146,6 +150,47 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "black"
     },
+    chatArea: {
+        height: units.height / 1,
+        width: units.width / 1.125,
+        borderWidth: 1,
+        borderColor: "#5ff736",
+        borderRadius: units.height / 99,
+        alignSelf: "center",
+        flexShrink: 1,
+    },
+    inputWrapper: {
+        // height: units.height / 18,
+        maxHeight: units.height / 8,
+        width: units.width / 1.125 - units.width / 10,
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: "#5ff736",
+        marginTop: units.height / 90,
+        backgroundColor: 'black',
+        borderTopLeftRadius: units.height / 99,
+        borderBottomLeftRadius: units.height / 99,
+        marginBottom: units.height / 12,
+        marginLeft: (units.width - units.width / 1.125) / 2
+    },
+    input: {
+        width: units.width / 1.125 - units.width / 10 - 1,
+        color: 'white',
+        paddingVertical: units.height / 200,
+    },
+    button: {
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderRightWidth: 1,
+        height: units.height / 18,
+        width: units.width / 10,
+        borderColor: "#5ff736",
+        justifyContent: "center",
+        alignItems: "center",
+        alignSelf: "center",
+        borderTopRightRadius: units.height / 99,
+        borderBottomRightRadius: units.height / 99,
+    },
     settingsButton: {
         height: units.height / 20,
         width: units.width / 10,
@@ -155,50 +200,6 @@ const styles = StyleSheet.create({
         borderRadius: units.height / 99,
         marginVertical: units.height / 95,
         marginEnd: units.height / 50,
-    },
-    wrapperContainer: {
-        flexDirection: 'row',
-        alignSelf: 'center'
-    },
-    button: {
-        borderTopWidth: 1,
-        borderBottomWidth: 1,
-        borderRightWidth: 1,
-        height: units.height / 18,
-        width: units.width / 10,
-        borderColor: "#5ff736",
-        alignSelf: "center",
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: units.height / 90,
-        borderTopRightRadius: units.height / 99,
-        borderBottomRightRadius: units.height / 99,
-        marginBottom: 50
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: "#5ff736",
-        marginTop: units.height / 90,
-        alignSelf: "center",
-        height: units.height / 18,
-        width: units.width / 1.25,
-        backgroundColor: 'black',
-        borderTopLeftRadius: units.height / 99,
-        borderBottomLeftRadius: units.height / 99,
-        color: 'white',
-        marginBottom: 50,
-        paddingTop: 5
-    },
-    chatArea: {
-        backgroundColor: "black",
-        height: units.height / 1,
-        width: units.width / 1.125,
-        borderWidth: 1,
-        borderColor: "#5ff736",
-        borderRadius: units.height / 99,
-        alignSelf: "center",
-        marginTop: units.height / 95,
-        flexShrink: 1,
     },
 })
 
