@@ -1,24 +1,16 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
-import Main from './pages/Main';
-import Settings from './pages/Settings';
-
-const Stack = createNativeStackNavigator();
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor, store } from './redux/ReduxManager';
+import MainNavigation from './navigation/MainNavigation'
 
 function App() {
     return (
-    <NavigationContainer>
-        <Stack.Navigator
-         screenOptions={{
-           headerShown: false,
-         }}
-        >
-            <Stack.Screen name="MainPage" component={Main} />
-            <Stack.Screen name="SettingsPage" component={Settings} />
-        </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+        <PersistGate persistor={persistor}>
+            <MainNavigation />
+        </PersistGate>
+    </Provider>
     );
 }
 
