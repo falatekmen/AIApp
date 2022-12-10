@@ -181,4 +181,5 @@ const styles = StyleSheet.create({
     answerText: {
         color: 'white',
     },
+    
 })
