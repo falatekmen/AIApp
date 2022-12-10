@@ -1,16 +1,16 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList, SafeAreaView, KeyboardAvoidingView, Platform, Modal, ScrollView } from 'react-native'
 import React, { useRef, useState } from 'react'
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import LottieView from 'lottie-react-native'
 
 import Settings from '../../src/assets/svgs/settings.svg'
 import Send from '../../src/assets/svgs/send.svg'
 import { units } from "../theme/Units"
-import { getCompletion } from '../api/ai'
+import { getCompletion } from '../api/modelApi'
 import ModelModal from './components/ModelModal'
 import { keySelector } from '../redux/KeyRedux'
 import { colors } from '../theme/Colors';
-
+import { selectedModelSelector } from '../redux/SelectedModelRedux';
 
 
 const MainScreen = ({ navigation }) => {
@@ -22,6 +22,7 @@ const MainScreen = ({ navigation }) => {
     const flatListRef = useRef()
     const inputRef = useRef()
 
+    const selectedModelInRedux = useSelector(selectedModelSelector)
     const apiKey = useSelector(keySelector)
 
     const onPress = async () => {
@@ -29,10 +30,15 @@ const MainScreen = ({ navigation }) => {
             inputRef.current.clear() // text inputu temizlemek için
             setLoading(true)
             setConversation(prev => [...prev, text])
-            // console.log([...conversation, text])
             flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
 
-            let response = await getCompletion(text, apiKey) // api çağrısı
+            // api çağrısı
+            let response = await getCompletion(
+                text,
+                apiKey,
+                selectedModelInRedux.temperature,
+                selectedModelInRedux.model
+            )
             setConversation(prev => [...prev, response]) // öncekiler ile beraber yapay zekanın yazdığını setler
             setLoading(false)
 
@@ -56,7 +62,7 @@ const MainScreen = ({ navigation }) => {
                 <Text
                     selectable={true}
                     style={{ color: colors.GREEN, marginHorizontal: units.width / 72 }} >
-                    {"⦿>"} <Text style={{ color: "white" }} >{item} </Text>
+                    {">"} <Text style={{ color: "white" }} >{item} </Text>
                 </Text>
             )
         }
