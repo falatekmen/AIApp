@@ -17,6 +17,8 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
+    // teli kapatıp açınca en son seçtiği model kayıtlı kalmasın, reduxtaki initial model seçili olsun
+    blacklist: ["selectedModel"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
