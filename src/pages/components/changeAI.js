@@ -2,7 +2,6 @@ import { View, Text, Modal, ScrollView, TouchableOpacity, FlatList, Image } from
 import React, { useState } from 'react'
 import { units } from '../../theme/Units'
 import { SvgUri } from 'react-native-svg'
-import A from '../../assets/svgs/a.svg'
 import { useSelector } from 'react-redux'
 import Fonts from '../../theme/Fonts'
 // modeller:https://beta.openai.com/docs/models/gpt-3
