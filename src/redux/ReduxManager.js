@@ -1,12 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createStore, combineReducers } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
+import { keyReducer } from './KeyRedux';
 
-import { favoritedReducer } from './FavoritedRedux';
+import { localizationReducer } from './LocalizationRedux';
 
 const rootReducer = combineReducers({
-    favoritedState: favoritedReducer,
-
+    key: keyReducer,
+    locale: localizationReducer,
 });
 
 const persistConfig = {
