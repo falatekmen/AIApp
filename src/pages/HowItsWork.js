@@ -3,8 +3,7 @@ import { SafeAreaView, TouchableOpacity, FlatList, View, Modal, StyleSheet, Text
 
 import { units } from "../theme/Units"
 import Back from '../../src/assets/svgs/back.svg'
-import Close from '../../src/assets/svgs/close.svg'
-
+import Fonts from "../theme/Fonts";
 
 function Settings({ navigation }) {
 
@@ -80,12 +79,6 @@ function Settings({ navigation }) {
             >
 
                 <TouchableOpacity style={styles.modal_container} onPress={() => { setModal(false) }} >
-                <TouchableOpacity style={styles.closeButton}
-                            onPress={() => {
-                                setModal(false)
-                            }}>
-                            <Close width={'70%'} height={'70%'} />
-                        </TouchableOpacity>
                     <TouchableOpacity style={styles.modal_box} activeOpacity={1}>
                         
                         <View >
@@ -134,7 +127,7 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
     title: {
-        fontSize: 20,
+        fontSize: Fonts.size(19),
         textAlign: 'left',
         color: 'white',
         fontWeight: 'bold',
@@ -142,12 +135,10 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     description: {
-        fontSize: 14,
+        fontSize: Fonts.size(13),
         color: 'white',
         marginHorizontal: 10,
         marginTop: 5,
-    },
-    closeButton: {
     },
     modal: {
         flex: 1,
