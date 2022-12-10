@@ -18,7 +18,7 @@ const MainScreen = ({ navigation }) => {
     const [text, setText] = useState("")
     const [conversation, setConversation] = useState([])
     const [loading, setLoading] = useState(false)
-
+    const [modalVisibility, setModalVisibility] = useState(false)
     const flatListRef = useRef()
     const inputRef = useRef()
 
@@ -68,12 +68,22 @@ const MainScreen = ({ navigation }) => {
                 behavior={Platform.OS == "android" ? "height" : "padding"}
                 style={styles.container}
             >
-                <TouchableOpacity style={styles.settingsButton}
-                    onPress={() => {
-                        navigation.navigate("HowItsWork")
-                    }}>
-                    <Settings width={'70%'} height={'70%'} />
-                </TouchableOpacity>
+                <View style={styles.topButtonsWrapper}>
+                    <TouchableOpacity style={styles.howItsWorkButton}
+                        onPress={() => {
+                            setModalVisibility(true)
+                        }}>
+                        <Settings width={'100%'} height={'100%'} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.howItsWorkButton}
+                        onPress={() => {
+                            navigation.navigate("HowItsWork")
+                        }}>
+                        <Settings width={'100%'} height={'100%'} />
+                    </TouchableOpacity>
+
+                </View>
                 <View style={styles.chatArea}>
                     <FlatList
                         data={conversation}
@@ -99,14 +109,14 @@ const MainScreen = ({ navigation }) => {
                         ref={inputRef}
                     />
                     <TouchableOpacity
-                        style={styles.button}
+                        style={styles.sendButton}
                         onPress={onPress}
                         onLongPress={() => { setConversation([]) }}
                     >
                         <Send width={units.width / 20} height={units.width / 20} alignSelf={'center'} />
                     </TouchableOpacity>
                 </View>
-                <ModelModal />
+                <ModelModal visibility={modalVisibility} closeModal={() => setModalVisibility(false)} />
             </KeyboardAvoidingView>
         </SafeAreaView>
     )
@@ -122,6 +132,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "black"
+    },
+    topButtonsWrapper: {
+        flexDirection: "row",
+        height: units.height / 20,
+        marginVertical: units.height / 72,
+        justifyContent: "space-between",
+        marginHorizontal: units.width / 20
+    },
+    howItsWorkButton: {
+        height: units.height / 20,
+        width: units.height / 20,
+        justifyContent: "center",
     },
     chatArea: {
         minHeight: units.height / 4, // bazen klavye açılınca bu alanlarda bir bug oluşum küçücük oluyor, burası engelliyor
@@ -154,7 +176,7 @@ const styles = StyleSheet.create({
         color: 'white',
         paddingVertical: units.height / 200,
     },
-    button: {
+    sendButton: {
         minHeight: units.height / 18,
         width: units.width / 10,
         borderColor: colors.GREEN,
@@ -163,16 +185,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         borderLeftWidth: 1
     },
-    settingsButton: {
-        height: units.height / 20,
-        width: units.width / 10,
-        alignSelf: 'flex-end',
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: units.height / 99,
-        marginVertical: units.height / 95,
-        marginEnd: units.height / 50,
-    },
+
 })
 
 
