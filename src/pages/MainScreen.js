@@ -1,38 +1,28 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList, SafeAreaView, KeyboardAvoidingView, Platform, Modal, ScrollView } from 'react-native'
 import React, { useRef, useState } from 'react'
-import { Configuration, OpenAIApi } from "openai"
-import Settings from '../../src/assets/svgs/settings.svg'
-import Send from '../../src/assets/svgs/send.svg'
+import { useDispatch, useSelector } from "react-redux";
 import LottieView from 'lottie-react-native'
 
-import { useDispatch, useSelector } from "react-redux";
-
+import Settings from '../../src/assets/svgs/settings.svg'
+import Send from '../../src/assets/svgs/send.svg'
 import { units } from "../theme/Units"
 import { getCompletion } from '../api/ai'
-import ChangeAIModal from './components/changeAI'
+import ModelModal from './components/ModelModal'
 import { keySelector } from '../redux/KeyRedux'
-import { localizationSelector, setLocalization } from '../redux/LocalizationRedux'
+import { colors } from '../theme/Colors';
 
-//Marketing:
-//prompt: "Bunu bana özetle:\nGitHub sürecine bakarsak açılışının ilk yılında 1002 contributor 124 yeni sürümle 45 branch’te 7,971 kere commitlemiş. Türkçe’si; 1002 geliştirici 45 versiyonda ki 124 yeni sürüm ile 7,971 kere yeni geliştirmeler gerçekleştirmiş. Bu verilerin açıklaması yazılım dünyasına merhaba demiş bir framework için oldukça iyi bir sonuç demek ve arkasında ki Facebook desteği ile açık kaynaklı bir framework oluşu sayesinde geliştiricilerin kısa zamanda sevgisini kazanmasına sebep olmuş. Ayrıca performans testlerinde Java ve Objective-C dillerinden de geri kalmadığını göstermiş bu framework. Sonuçta biz geliştiriciler için en önemli noktalardan biri performans ve verimdir.",
-//  prompt: "Bunu şu dillere çevir 1. French, 2. Spanish and 3. Japanese:\n\nMerhaba\n\n",
 
-const Main = ({ navigation }) => {
+
+const MainScreen = ({ navigation }) => {
 
     const [text, setText] = useState("")
     const [conversation, setConversation] = useState([])
     const [loading, setLoading] = useState(false)
-    const [list, setList] = useState()
+
     const flatListRef = useRef()
     const inputRef = useRef()
 
-    const dispatch = useDispatch()
     const apiKey = useSelector(keySelector)
-const language = useSelector(localizationSelector)
-console.log(language)
-    // https://beta.openai.com/docs/api-reference/authentication ->const response = await openai.listEngines();
-    // yapılabileckler: https://beta.openai.com/examples
-
 
     const onPress = async () => {
         if (text) { //bir meitn girmeden aşağıdaki işlemlerin yapılmaması için
@@ -42,19 +32,13 @@ console.log(language)
             // console.log([...conversation, text])
             flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
 
-            let response = await getCompletion(text,apiKey) // api çağrısı
+            let response = await getCompletion(text, apiKey) // api çağrısı
             setConversation(prev => [...prev, response]) // öncekiler ile beraber yapay zekanın yazdığını setler
             setLoading(false)
 
             setText("")
             flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
         }
-    }
-
-    const listelee = async () => {
-
-        const response = await openai.listModels()
-        setList(response.data)
     }
 
 
@@ -71,7 +55,7 @@ console.log(language)
             return (
                 <Text
                     selectable={true}
-                    style={{ color: "#5ff736", marginHorizontal: units.width / 72 }} >
+                    style={{ color: colors.GREEN, marginHorizontal: units.width / 72 }} >
                     {"⦿>"} <Text style={{ color: "white" }} >{item} </Text>
                 </Text>
             )
@@ -103,11 +87,8 @@ console.log(language)
                                             source={require('../assets/animation/loading.json')} autoPlay loop />
                                     }
                                 </View>
-
                             )
-                        }}
-                    />
-
+                        }} />
                 </View>
                 <View style={styles.inputWrapper}>
                     <TextInput
@@ -125,13 +106,13 @@ console.log(language)
                         <Send width={units.width / 20} height={units.width / 20} alignSelf={'center'} />
                     </TouchableOpacity>
                 </View>
-                <ChangeAIModal />
+                <ModelModal />
             </KeyboardAvoidingView>
         </SafeAreaView>
     )
 }
 
-export default Main
+export default MainScreen
 
 const styles = StyleSheet.create({
     safeArea: {
@@ -143,22 +124,22 @@ const styles = StyleSheet.create({
         backgroundColor: "black"
     },
     chatArea: {
-        minHeight: units.height / 4, //saçma sapan bir bug oluşuyor onu engellemek için
+        minHeight: units.height / 4, // bazen klavye açılınca bu alanlarda bir bug oluşum küçücük oluyor, burası engelliyor
         height: units.height / 1,
         width: units.width / 1.125,
         borderWidth: 1,
-        borderColor: "#5ff736",
+        borderColor: colors.GREEN,
         borderRadius: units.height / 99,
         alignSelf: "center",
         flexShrink: 1,
     },
     inputWrapper: {
         maxHeight: units.height / 8,
-        minHeight: units.height / 17, //saçma sapan bir bug oluşuyor onu engellemek için
+        minHeight: units.height / 17, // bazen klavye açılınca bu alanlarda bir bug oluşum küçücük oluyor, burası engelliyor
         width: units.width / 1.125,
         flexDirection: 'row',
         borderWidth: 1,
-        borderColor: "#5ff736",
+        borderColor: colors.GREEN,
         marginTop: units.height / 90,
         backgroundColor: 'black',
         borderTopLeftRadius: units.height / 99,
@@ -176,7 +157,7 @@ const styles = StyleSheet.create({
     button: {
         minHeight: units.height / 18,
         width: units.width / 10,
-        borderColor: "#5ff736",
+        borderColor: colors.GREEN,
         justifyContent: "center",
         alignItems: "center",
         alignSelf: "center",

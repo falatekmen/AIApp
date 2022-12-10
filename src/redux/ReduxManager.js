@@ -4,10 +4,14 @@ import { persistStore, persistReducer } from 'redux-persist';
 import { keyReducer } from './KeyRedux';
 
 import { localizationReducer } from './LocalizationRedux';
+import { modelsDataReducer } from './ModelsDataRedux';
+import { selectedModelReducer } from './SelectedModelRedux';
 
 const rootReducer = combineReducers({
     key: keyReducer,
     locale: localizationReducer,
+    modelsData: modelsDataReducer,
+    selectedModel: selectedModelReducer
 });
 
 const persistConfig = {

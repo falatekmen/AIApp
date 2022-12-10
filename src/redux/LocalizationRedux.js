@@ -20,9 +20,8 @@ export const setLocalization = (language) => {
 export const localizationReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case CHANGE_LOCALE:
-            let newLanguage = action.payload.language;
             return {
-                language: newLanguage
+                language: action.payload.language
             }
         default:
             return state;
