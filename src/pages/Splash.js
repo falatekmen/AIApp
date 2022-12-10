@@ -10,6 +10,7 @@ const Splash = ({ navigation }) => {
 
     const dispatch = useDispatch()
 
+    
     const data = [
         {
             name: "Davinci",
