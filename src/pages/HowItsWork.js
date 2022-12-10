@@ -3,6 +3,7 @@ import { SafeAreaView, TouchableOpacity, FlatList, View, Modal, StyleSheet, Text
 
 import { units } from "../theme/Units"
 import Back from '../../src/assets/svgs/back.svg'
+import Close from '../../src/assets/svgs/close.svg'
 
 
 function Settings({ navigation }) {
@@ -79,7 +80,14 @@ function Settings({ navigation }) {
             >
 
                 <TouchableOpacity style={styles.modal_container} onPress={() => { setModal(false) }} >
+                <TouchableOpacity style={styles.closeButton}
+                            onPress={() => {
+                                setModal(false)
+                            }}>
+                            <Close width={'70%'} height={'70%'} />
+                        </TouchableOpacity>
                     <TouchableOpacity style={styles.modal_box} activeOpacity={1}>
+                        
                         <View >
                             <Text style={styles.questionText}>{">"} {selectedCard.question}</Text>
                             <View style={styles.answerBox}>
@@ -138,6 +146,8 @@ const styles = StyleSheet.create({
         color: 'white',
         marginHorizontal: 10,
         marginTop: 5,
+    },
+    closeButton: {
     },
     modal: {
         flex: 1,
