@@ -10,7 +10,7 @@ import { colors } from '../../theme/Colors'
 import { selectedModelSelector, setSelectedModel } from '../../redux/SelectedModelRedux'
 
 
-export default function ModelModal() {
+export default function ModelModal({visibility, closeModal}) {
 
     const dispatch = useDispatch()
 
@@ -23,7 +23,7 @@ export default function ModelModal() {
     const onPressSave = () => {
         // seçilen model içerisine seçilen temperature'e eklenerek reduxa gönderilir
         dispatch(setSelectedModel({ temperature, ...selectedAI }))
-
+        closeModal()
     }
 
     const renderModels = ({ item, index }) => {
@@ -48,7 +48,7 @@ export default function ModelModal() {
     }
 
     return (
-        <Modal visible animationType="slide">
+        <Modal visible={visibility} animationType="slide">
             <View style={styles.container}>
                 <Text style={styles.title}>Models</Text>
                 <Text style={styles.description}>
