@@ -8,6 +8,7 @@ import { modelsDataSelector } from '../../redux/ModelsDataRedux'
 import Slider from '@react-native-community/slider';
 import { colors } from '../../theme/Colors'
 import { selectedModelSelector, setSelectedModel } from '../../redux/SelectedModelRedux'
+import Back from '../../assets/svgs/back.svg'
 
 
 export default function ModelModal({visibility, closeModal}) {
@@ -34,7 +35,7 @@ export default function ModelModal({visibility, closeModal}) {
             }} >
                 <View style={[
                     styles.modelImageWrapper,
-                    item.name == selectedAI.name && { borderWidth: units.height / 200, borderColor: colors.DARKGREEN, }
+                    item.name == selectedAI.name && { borderWidth: units.height / 200, borderColor: colors.GREEN, }
                 ]}>
                     <Image
                         style={styles.modelImage}
@@ -50,6 +51,12 @@ export default function ModelModal({visibility, closeModal}) {
     return (
         <Modal visible={visibility} animationType="slide">
             <View style={styles.container}>
+            <TouchableOpacity style={styles.backButton}
+                onPress={() => {
+                    closeModal()
+                }}>
+                <Back width={'70%'} height={'70%'} />
+            </TouchableOpacity>
                 <Text style={styles.title}>Models</Text>
                 <Text style={styles.description}>
                     GPT-3 models can understand and generate natural language. There are few main models with different levels of power suitable for different tasks.
@@ -86,6 +93,7 @@ export default function ModelModal({visibility, closeModal}) {
                         }}
                         value={temperature}
                         step={0.1} // kaçar kaçar artacağı
+                        thumbTintColor={colors.GREEN}
                     />
                     <Text style={styles.temperatureMaxMin}>1</Text>
                 </View>
@@ -101,21 +109,28 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.BLACK,
-        paddingTop: units.height / 25,
+        paddingTop: units.height / 36,
         paddingHorizontal: units.width / 36
     },
+    backButton: {
+        height: units.height / 20,
+        width: units.width / 10,
+        alignSelf: 'flex-start',
+    },
     title: {
-        color: colors.DARKGREEN,
+        color: colors.GREEN,
         fontSize: Fonts.size(18),
         fontWeight: "bold",
+        marginHorizontal: units.height / 70
     },
     description: {
         color: colors.WHITE,
         fontSize: Fonts.size(17),
-        marginBottom: units.height / 36
+        marginBottom: units.height / 70,
+        marginHorizontal: units.height / 70
     },
     flatListWrapper: {
-        marginBottom: units.height / 36
+        marginBottom: units.height / 70
     },
     flatListContainer: {
         flexGrow: 1,
@@ -159,10 +174,9 @@ const styles = StyleSheet.create({
         fontSize: Fonts.size(20)
     },
     buttonText: {
-        color: colors.DARKGREEN,
-        fontSize: Fonts.size(35),
+        color: colors.GREEN,
+        fontSize: Fonts.size(30),
         alignSelf: "center",
-        fontWeight: "bold",
-        marginTop: units.height / 20
+        marginTop: units.height / 50
     }
 })

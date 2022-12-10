@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { useSelector } from "react-redux";
 import LottieView from 'lottie-react-native'
 
+import Brain from '../../src/assets/svgs/brain.svg'
 import Settings from '../../src/assets/svgs/settings.svg'
 import Send from '../../src/assets/svgs/send.svg'
 import { units } from "../theme/Units"
@@ -75,11 +76,11 @@ const MainScreen = ({ navigation }) => {
                 style={styles.container}
             >
                 <View style={styles.topButtonsWrapper}>
-                    <TouchableOpacity style={styles.howItsWorkButton}
+                    <TouchableOpacity style={styles.modelModalButton}
                         onPress={() => {
                             setModalVisibility(true)
                         }}>
-                        <Settings width={'100%'} height={'100%'} />
+                        <Brain width={'90%'} height={'90%'} />
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.howItsWorkButton}
@@ -146,10 +147,16 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginHorizontal: units.width / 20
     },
+    modelModalButton :{
+        height: units.height / 20,
+        width: units.height / 20,
+        marginLeft: units.height / 2.4,
+    },
     howItsWorkButton: {
         height: units.height / 20,
         width: units.height / 20,
         justifyContent: "center",
+        alignSelf: "flex-end"
     },
     chatArea: {
         minHeight: units.height / 4, // bazen klavye açılınca bu alanlarda bir bug oluşum küçücük oluyor, burası engelliyor
