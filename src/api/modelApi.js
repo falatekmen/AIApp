@@ -1,24 +1,24 @@
 import { Configuration, OpenAIApi } from "openai"
 
 
-export const getCompletion = async (text, key) => {
+export const getCompletion = async (text, key, temperature, model) => {
 
     const configuration = new Configuration({
         apiKey: key,
     });
 
     const openai = new OpenAIApi(configuration);
-
+    
     try {
         return await openai.createCompletion({
             // https://beta.openai.com/docs/quickstart/adjust-your-settings
-            model: "text-davinci-003",
+            model: model,
             prompt: text,
             // temelde modelin bu tahminleri yaparken ne kadar güvenli olması gerektiğini kontrol etmenizi sağlayan 
             // 0 ile 1 arasında bir değerdir. Sıcaklığın düşürülmesi, daha az risk alacağı ve tamamlamaların daha doğru
             // ve belirleyici olacağı anlamına gelir. Artan sıcaklık, daha çeşitli tamamlamalara neden olacaktır.
-            temperature: 0.7,
-            max_tokens: 256,
+            temperature: temperature,
+            max_tokens: 64,
             top_p: 1,
             frequency_penalty: 0,
             presence_penalty: 0,
