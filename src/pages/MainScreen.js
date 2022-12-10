@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList, SafeAreaView, KeyboardAvoidingView, Platform, Modal, ScrollView } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { Configuration, OpenAIApi } from "openai"
 import Settings from '../../src/assets/svgs/settings.svg'
@@ -6,10 +6,12 @@ import Send from '../../src/assets/svgs/send.svg'
 import LottieView from 'lottie-react-native'
 
 import { useDispatch, useSelector } from "react-redux";
-import { favoritedSelector, setFavorited } from "../redux/FavoritedRedux";
 
 import { units } from "../theme/Units"
 import { getCompletion } from '../api/ai'
+import ChangeAIModal from './components/changeAI'
+import { keySelector } from '../redux/KeyRedux'
+import { localizationSelector, setLocalization } from '../redux/LocalizationRedux'
 
 //Marketing:
 //prompt: "Bunu bana özetle:\nGitHub sürecine bakarsak açılışının ilk yılında 1002 contributor 124 yeni sürümle 45 branch’te 7,971 kere commitlemiş. Türkçe’si; 1002 geliştirici 45 versiyonda ki 124 yeni sürüm ile 7,971 kere yeni geliştirmeler gerçekleştirmiş. Bu verilerin açıklaması yazılım dünyasına merhaba demiş bir framework için oldukça iyi bir sonuç demek ve arkasında ki Facebook desteği ile açık kaynaklı bir framework oluşu sayesinde geliştiricilerin kısa zamanda sevgisini kazanmasına sebep olmuş. Ayrıca performans testlerinde Java ve Objective-C dillerinden de geri kalmadığını göstermiş bu framework. Sonuçta biz geliştiriciler için en önemli noktalardan biri performans ve verimdir.",
@@ -25,24 +27,28 @@ const Main = ({ navigation }) => {
     const inputRef = useRef()
 
     const dispatch = useDispatch()
-
+    const apiKey = useSelector(keySelector)
+const language = useSelector(localizationSelector)
+console.log(language)
     // https://beta.openai.com/docs/api-reference/authentication ->const response = await openai.listEngines();
     // yapılabileckler: https://beta.openai.com/examples
 
 
     const onPress = async () => {
-        inputRef.current.clear() // text inputu temizlemek için
-        setLoading(true)
-        setConversation(prev => [...prev, text])
-        // console.log([...conversation, text])
-        flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
+        if (text) { //bir meitn girmeden aşağıdaki işlemlerin yapılmaması için
+            inputRef.current.clear() // text inputu temizlemek için
+            setLoading(true)
+            setConversation(prev => [...prev, text])
+            // console.log([...conversation, text])
+            flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
 
-        let response = await getCompletion(text) // api çağrısı
-        setConversation(prev => [...prev, response]) // öncekiler ile beraber yapay zekanın yazdığını setler
-        setLoading(false)
+            let response = await getCompletion(text,apiKey) // api çağrısı
+            setConversation(prev => [...prev, response]) // öncekiler ile beraber yapay zekanın yazdığını setler
+            setLoading(false)
 
-        setText("")
-        flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
+            setText("")
+            flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
+        }
     }
 
     const listelee = async () => {
@@ -66,7 +72,7 @@ const Main = ({ navigation }) => {
                 <Text
                     selectable={true}
                     style={{ color: "#5ff736", marginHorizontal: units.width / 72 }} >
-                    {"⦿"} <Text style={{ color: "white" }} >{item} </Text>
+                    {"⦿>"} <Text style={{ color: "white" }} >{item} </Text>
                 </Text>
             )
         }
@@ -119,6 +125,7 @@ const Main = ({ navigation }) => {
                         <Send width={units.width / 20} height={units.width / 20} alignSelf={'center'} />
                     </TouchableOpacity>
                 </View>
+                <ChangeAIModal />
             </KeyboardAvoidingView>
         </SafeAreaView>
     )
