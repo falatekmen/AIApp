@@ -11,7 +11,7 @@ const Splash = ({ navigation }) => {
     setTimeout(() => {
         dispatch(setLocalization("eng"))
         dispatch(setKey(""))
-        dispatch(setModels)
+        // dispatch(setModels)
         navigation.navigate("MainScreen")
     }, 500)
 
