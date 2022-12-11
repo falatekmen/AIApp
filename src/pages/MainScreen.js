@@ -1,10 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList, SafeAreaView, KeyboardAvoidingView, Platform, Modal, ScrollView } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, StatusBar, FlatList, SafeAreaView, KeyboardAvoidingView, Platform, Modal, ScrollView } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { useSelector } from "react-redux";
 import LottieView from 'lottie-react-native'
 
 import Brain from '../../src/assets/svgs/brain.svg'
-import Settings from '../../src/assets/svgs/settings.svg'
+import QuestionMark from '../../src/assets/svgs/questionMark.svg'
 import Send from '../../src/assets/svgs/send.svg'
 import { units } from "../theme/Units"
 import { getCompletion } from '../api/modelApi'
@@ -70,7 +70,10 @@ const MainScreen = ({ navigation }) => {
     }
 
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <>
+        <SafeAreaView style={styles.topSafeArea} />
+        <SafeAreaView style={styles.safeArea} >
+        <StatusBar barStyle="light-content" backgroundColor="black"/>
             <KeyboardAvoidingView
                 behavior={Platform.OS == "android" ? "height" : "padding"}
                 style={styles.container}
@@ -87,7 +90,7 @@ const MainScreen = ({ navigation }) => {
                         onPress={() => {
                             navigation.navigate("HowItsWork")
                         }}>
-                        <Settings width={'100%'} height={'100%'} />
+                        <QuestionMark width={'95%'} height={'95%'} />
                     </TouchableOpacity>
 
                 </View>
@@ -126,12 +129,17 @@ const MainScreen = ({ navigation }) => {
                 <ModelModal visibility={modalVisibility} closeModal={() => setModalVisibility(false)} />
             </KeyboardAvoidingView>
         </SafeAreaView>
+        </>
     )
 }
 
 export default MainScreen
 
 const styles = StyleSheet.create({
+    topSafeArea: {
+        flex: 0,
+        backgroundColor: colors.BLACK
+    },
     safeArea: {
         flex: 1,
         backgroundColor: "black"
@@ -143,20 +151,17 @@ const styles = StyleSheet.create({
     topButtonsWrapper: {
         flexDirection: "row",
         height: units.height / 20,
-        marginVertical: units.height / 72,
-        justifyContent: "space-between",
-        marginHorizontal: units.width / 20
+        marginVertical: units.height / 80,
+        justifyContent: 'flex-end',
+        marginHorizontal: units.width / 20,
     },
     modelModalButton :{
         height: units.height / 20,
-        width: units.height / 20,
-        marginLeft: units.height / 2.4,
+        width: units.height / 20
     },
     howItsWorkButton: {
         height: units.height / 20,
         width: units.height / 20,
-        justifyContent: "center",
-        alignSelf: "flex-end"
     },
     chatArea: {
         minHeight: units.height / 4, // bazen klavye açılınca bu alanlarda bir bug oluşum küçücük oluyor, burası engelliyor
