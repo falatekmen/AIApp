@@ -1,0 +1,13 @@
+current directory: /Users/mac/Desktop/AIApp/vendor/bundle/ruby/2.7.0/gems/json-2.6.2/ext/json
+/Users/mac/.rvm/rubies/ruby-2.7.4/bin/ruby -I /Users/mac/.rvm/rubies/ruby-2.7.4/lib/ruby/2.7.0 -r ./siteconf20221211-17589-s6xdj8.rb extconf.rb
+creating Makefile
+
+current directory: /Users/mac/Desktop/AIApp/vendor/bundle/ruby/2.7.0/gems/json-2.6.2/ext/json
+make "DESTDIR=" clean
+
+current directory: /Users/mac/Desktop/AIApp/vendor/bundle/ruby/2.7.0/gems/json-2.6.2/ext/json
+make "DESTDIR="
+make: Nothing to be done for `all'.
+
+current directory: /Users/mac/Desktop/AIApp/vendor/bundle/ruby/2.7.0/gems/json-2.6.2/ext/json
+make "DESTDIR=" install
