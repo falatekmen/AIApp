@@ -114,7 +114,6 @@
 				3DDEC4269CA63FE151846043 /* Pods-AIApp-AIAppTests.debug.xcconfig */,
 				609A2DEA9E8DE89CBF6F45E6 /* Pods-AIApp-AIAppTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -485,6 +484,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3K7U4GDRH2;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = AIApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -497,6 +497,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.ekmen.aiapp;
 				PRODUCT_NAME = AIApp;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -511,6 +512,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3K7U4GDRH2;
 				INFOPLIST_FILE = AIApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -522,6 +524,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.ekmen.aiapp;
 				PRODUCT_NAME = AIApp;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
