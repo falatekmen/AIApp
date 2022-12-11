@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
+import { View, Text, Modal, TouchableOpacity, FlatList, Image, StyleSheet, ScrollView, Platform, SafeAreaView } from 'react-native'
 import React, { useState } from 'react'
 
 import { units } from '../../theme/Units'
@@ -50,7 +50,7 @@ export default function ModelModal({visibility, closeModal}) {
 
     return (
         <Modal visible={visibility} animationType="slide">
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.backButton}
                 onPress={() => {
                     closeModal()
@@ -69,6 +69,8 @@ export default function ModelModal({visibility, closeModal}) {
                         contentContainerStyle={styles.flatListContainer}
                     />
                 </View>
+                <ScrollView>
+
                 <Text style={styles.title}>Description</Text>
                 <Text style={styles.description}>{selectedAI.description}</Text>
                 <Text style={styles.title}>Temperature</Text>
@@ -100,7 +102,8 @@ export default function ModelModal({visibility, closeModal}) {
                 <TouchableOpacity onPress={onPressSave}>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableOpacity>
-            </View>
+                </ScrollView>
+            </SafeAreaView>
         </Modal >
     )
 }

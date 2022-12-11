@@ -29,7 +29,7 @@ export const getCompletion = async (text, key, temperature, model) => {
 
     } catch (error) {
         console.log(error) //XNOTE analyticse bu erroru gönder
-        return "Sistemimde bir hata oluştu. Şu an sana yanıt veremiyorum"
+        return "Sistemimde bir hata oluştu. Şu an sana yanıt veremiyorum."
     }
 
 }
