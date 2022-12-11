@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setKey } from '../redux/KeyRedux'
 import { setLocalization } from '../redux/LocalizationRedux'
@@ -7,6 +7,10 @@ import { setModelsData } from '../redux/ModelsDataRedux'
 import AppIcon from '../assets/svgs/app-icon.svg'
 import { colors } from '../theme/Colors'
 import { units } from '../theme/Units'
+import { RemoteConfig } from '../firebase/RemoteConfig'
+
+const remoteConfig = new RemoteConfig()
+
 
 const Splash = ({ navigation }) => {
 
@@ -42,13 +46,30 @@ const Splash = ({ navigation }) => {
         }
     ]
 
-    setTimeout(() => {
-        dispatch(setLocalization("eng")) // NOTEX: info ile teli yerini çek
-        dispatch(setKey(""))
-        dispatch(setModelsData(data))
-        navigation.navigate("MainScreen")
-    }, 500)
 
+
+
+    useEffect(() => {
+
+        remoteConfig.init()
+
+
+        const splash = () => {
+            setTimeout(async () => {
+                //message to be shown in the alert
+                const message = await remoteConfig.getKey()
+                console.log(message)
+
+
+                dispatch(setLocalization("eng")) // NOTEX: info ile teli yerini çek
+                dispatch(setKey(""))
+                dispatch(setModelsData(data))
+                navigation.navigate("MainScreen")
+            }, 500);
+        }
+
+        splash()
+    }, [])
 
 
 
