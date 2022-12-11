@@ -1,17 +1,16 @@
-import { View, Text, Modal, TouchableOpacity, FlatList, Image, StyleSheet, ScrollView, Platform, SafeAreaView } from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet, ScrollView, SafeAreaView } from 'react-native'
 import React, { useState } from 'react'
 
-import { units } from '../../theme/Units'
+import { units } from '../theme/Units'
 import { useDispatch, useSelector } from 'react-redux'
-import Fonts from '../../theme/Fonts'
-import { modelsDataSelector } from '../../redux/ModelsDataRedux'
+import Fonts from '../theme/Fonts'
+import { modelsDataSelector } from '../redux/ModelsDataRedux'
 import Slider from '@react-native-community/slider';
-import { colors } from '../../theme/Colors'
-import { selectedModelSelector, setSelectedModel } from '../../redux/SelectedModelRedux'
-import Back from '../../assets/svgs/back.svg'
+import { colors } from '../theme/Colors'
+import { selectedModelSelector, setSelectedModel } from '../redux/SelectedModelRedux'
+import Back from '../assets/svgs/back.svg'
 
-
-export default function ModelModal({visibility, closeModal}) {
+export default function ChanceModel({ navigation }) {
 
     const dispatch = useDispatch()
 
@@ -24,7 +23,7 @@ export default function ModelModal({visibility, closeModal}) {
     const onPressSave = () => {
         // seçilen model içerisine seçilen temperature'e eklenerek reduxa gönderilir
         dispatch(setSelectedModel({ temperature, ...selectedAI }))
-        closeModal()
+        navigation.goBack()
     }
 
     const renderModels = ({ item, index }) => {
@@ -49,27 +48,26 @@ export default function ModelModal({visibility, closeModal}) {
     }
 
     return (
-        <Modal visible={visibility} animationType="slide">
-            <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.backButton}
                 onPress={() => {
-                    closeModal()
+                    navigation.goBack()
                 }}>
                 <Back width={'70%'} height={'70%'} />
             </TouchableOpacity>
-                <Text style={styles.title}>Models</Text>
-                <Text style={styles.description}>
-                    GPT-3 models can understand and generate natural language. There are few main models with different levels of power suitable for different tasks.
-                </Text>
-                <View style={styles.flatListWrapper}>
-                    <FlatList
-                        data={models}
-                        renderItem={renderModels}
-                        horizontal
-                        contentContainerStyle={styles.flatListContainer}
-                    />
-                </View>
-                <ScrollView>
+            <Text style={styles.title}>Models</Text>
+            <Text style={styles.description}>
+                GPT-3 models can understand and generate natural language. There are few main models with different levels of power suitable for different tasks.
+            </Text>
+            <View style={styles.flatListWrapper}>
+                <FlatList
+                    data={models}
+                    renderItem={renderModels}
+                    horizontal
+                    contentContainerStyle={styles.flatListContainer}
+                />
+            </View>
+            <ScrollView>
 
                 <Text style={styles.title}>Description</Text>
                 <Text style={styles.description}>{selectedAI.description}</Text>
@@ -102,9 +100,8 @@ export default function ModelModal({visibility, closeModal}) {
                 <TouchableOpacity onPress={onPressSave}>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableOpacity>
-                </ScrollView>
-            </SafeAreaView>
-        </Modal >
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 
@@ -122,13 +119,13 @@ const styles = StyleSheet.create({
     },
     title: {
         color: colors.GREEN,
-        fontSize: Fonts.size(18),
+        fontSize: Fonts.size(19),
         fontWeight: "bold",
         marginHorizontal: units.height / 70
     },
     description: {
         color: colors.WHITE,
-        fontSize: Fonts.size(17),
+        fontSize: Fonts.size(13),
         marginBottom: units.height / 70,
         marginHorizontal: units.height / 70
     },
@@ -145,7 +142,7 @@ const styles = StyleSheet.create({
     modelImageWrapper: {
         width: units.height / 8.5,
         height: units.height / 8.5,
-        backgroundColor: "white",
+        backgroundColor: colors.WHITE,
         borderRadius: units.height / 72,
         marginHorizontal: units.width / 72,
         justifyContent: "center",
@@ -156,8 +153,8 @@ const styles = StyleSheet.create({
         height: units.height / 9.5
     },
     modelName: {
-        color: "white",
-        fontSize: Fonts.size(17)
+        color: colors.WHITE,
+        fontSize: Fonts.size(14)
     },
     temperatureValue: {
         color: colors.WHITE,
@@ -178,8 +175,9 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: colors.GREEN,
-        fontSize: Fonts.size(30),
+        fontSize: Fonts.size(27),
         alignSelf: "center",
-        marginTop: units.height / 50
+        padding: units.width / 95,
+        marginVertical: units.height / 50,
     }
 })

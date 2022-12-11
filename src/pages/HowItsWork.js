@@ -4,6 +4,7 @@ import { SafeAreaView, TouchableOpacity, FlatList, View, Modal, StyleSheet, Text
 import { units } from "../theme/Units"
 import Back from '../../src/assets/svgs/back.svg'
 import Fonts from "../theme/Fonts";
+import { colors } from '../theme/Colors'
 
 function Settings({ navigation }) {
 
@@ -54,7 +55,6 @@ function Settings({ navigation }) {
         )
     }
 
-
     return (
         <SafeAreaView style={styles.container}>
 
@@ -70,7 +70,6 @@ function Settings({ navigation }) {
                 renderItem={renderFlatlistItem}
             />
 
-
             <Modal
                 style={styles.modal}
                 visible={modal}
@@ -80,7 +79,7 @@ function Settings({ navigation }) {
 
                 <TouchableOpacity style={styles.modal_container} onPress={() => { setModal(false) }} >
                     <TouchableOpacity style={styles.modal_box} activeOpacity={1}>
-                        
+
                         <View >
                             <Text style={styles.questionText}>{">"} {selectedCard.question}</Text>
                             <View style={styles.answerBox}>
@@ -90,12 +89,11 @@ function Settings({ navigation }) {
                                 </Text>
                             </View>
                         </View>
+
                     </TouchableOpacity>
                 </TouchableOpacity>
 
             </Modal>
-
-
 
         </SafeAreaView>
     );
@@ -106,7 +104,7 @@ export default Settings;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'black',
+        backgroundColor: colors.BLACK,
     },
     backButton: {
         height: units.height / 20,
@@ -115,30 +113,30 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginLeft: units.height / 95,
-        marginVertical: 5
+        marginVertical: units.width / 80,
     },
     cardContainer: {
         height: units.height / 9,
         width: units.width / 1.1,
         borderWidth: 1,
-        borderColor: "#5ff736",
+        borderColor: colors.GREEN,
         borderRadius: units.height / 99,
         alignSelf: "center",
-        marginVertical: 5
+        marginVertical: units.width / 80,
     },
     title: {
         fontSize: Fonts.size(19),
         textAlign: 'left',
-        color: 'white',
+        color: colors.WHITE,
         fontWeight: 'bold',
-        marginHorizontal: 10,
-        marginTop: 5,
+        marginHorizontal: units.width / 36,
+        marginTop: units.height / 200,
     },
     description: {
         fontSize: Fonts.size(13),
-        color: 'white',
-        marginHorizontal: 10,
-        marginTop: 5,
+        color: colors.WHITE,
+        marginHorizontal: units.width / 36,
+        marginTop: units.height / 200,
     },
     modal: {
         flex: 1,
@@ -150,27 +148,28 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modal_box: {
-        backgroundColor: 'black',
+        backgroundColor: colors.BLACK,
         borderRadius: units.height / 99,
         minHeight: units.height / 6,
         width: units.width / 1.2,
         alignSelf: 'center',
         borderWidth: 1,
-        borderColor: '#5ff736',
+        borderColor: colors.GREEN,
         padding: units.height / 90,
     },
     questionText: {
-        color: 'white',
+        color: colors.WHITE,
         margin: units.width / 99,
+        fontSize: Fonts.size(13),
     },
     answerBox: {
         margin: units.width / 99,
     },
     answerTag: {
-        color: '#5ff736',
+        color: colors.GREEN,
     },
     answerText: {
-        color: 'white',
+        color: colors.WHITE,
+        fontSize: Fonts.size(13),
     },
-    
 })

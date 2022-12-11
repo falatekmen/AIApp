@@ -1,5 +1,5 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, StatusBar, FlatList, SafeAreaView, KeyboardAvoidingView, Platform, Modal, ScrollView } from 'react-native'
-import React, { useRef, useState } from 'react'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, FlatList, SafeAreaView, KeyboardAvoidingView, Platform, BackHandler } from 'react-native'
+import React, { useRef, useState, useEffect } from 'react'
 import { useSelector } from "react-redux";
 import LottieView from 'lottie-react-native'
 
@@ -8,13 +8,18 @@ import QuestionMark from '../../src/assets/svgs/questionMark.svg'
 import Send from '../../src/assets/svgs/send.svg'
 import { units } from "../theme/Units"
 import { getCompletion } from '../api/modelApi'
-import ModelModal from './components/ModelModal'
 import { keySelector } from '../redux/KeyRedux'
 import { colors } from '../theme/Colors';
 import { selectedModelSelector } from '../redux/SelectedModelRedux';
 
-
 const MainScreen = ({ navigation }) => {
+
+    //Kullanıcının bu ekrayken geri tuşuna basıp splash ekranında kalmaması için.
+    //Telefonun geri tuşunu bu ekranda iptal ediyor.
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", () => true)
+        return () => backHandler.remove()
+    }, [])
 
     const [text, setText] = useState("")
     const [conversation, setConversation] = useState([])
@@ -48,7 +53,6 @@ const MainScreen = ({ navigation }) => {
         }
     }
 
-
     const renderChat = ({ item, index }) => {
         if (index % 2 == 0) {
             return (
@@ -71,64 +75,65 @@ const MainScreen = ({ navigation }) => {
 
     return (
         <>
-        <SafeAreaView style={styles.topSafeArea} />
-        <SafeAreaView style={styles.safeArea} >
-        <StatusBar barStyle="light-content" backgroundColor="black"/>
-            <KeyboardAvoidingView
-                behavior={Platform.OS == "android" ? "height" : "padding"}
-                style={styles.container}
-            >
-                <View style={styles.topButtonsWrapper}>
-                    <TouchableOpacity style={styles.modelModalButton}
-                        onPress={() => {
-                            setModalVisibility(true)
-                        }}>
-                        <Brain width={'90%'} height={'90%'} />
-                    </TouchableOpacity>
+            <SafeAreaView style={styles.topSafeArea} />
+            <SafeAreaView style={styles.safeArea} >
+                <StatusBar barStyle="light-content" backgroundColor="black" />
+                <KeyboardAvoidingView
+                    behavior={Platform.OS == "android" ? "height" : "padding"}
+                    style={styles.container}
+                >
+                    <View style={styles.topButtonsWrapper}>
+                        <TouchableOpacity style={styles.modelModalButton}
+                            onPress={() => {
+                                navigation.navigate("ChanceModel")
+                            }}>
+                            <Brain width={'90%'} height={'90%'} />
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.howItsWorkButton}
-                        onPress={() => {
-                            navigation.navigate("HowItsWork")
-                        }}>
-                        <QuestionMark width={'95%'} height={'95%'} />
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.howItsWorkButton}
+                            onPress={() => {
+                                navigation.navigate("HowItsWork")
+                            }}>
+                            <QuestionMark width={'95%'} height={'95%'} />
+                        </TouchableOpacity>
+                    </View>
 
-                </View>
-                <View style={styles.chatArea}>
-                    <FlatList
-                        data={conversation}
-                        renderItem={renderChat}
-                        ref={flatListRef} // flatlisti aşağı kaydırma için gerekli
-                        ListFooterComponent={() => { // flatlist'in en altında boşluk olmasını sağlamak için
-                            return (
-                                <View style={{ flex: 1, height: units.height / 10, marginBottom: 5 }}>
-                                    {
-                                        loading && <LottieView
-                                            source={require('../assets/animation/loading.json')} autoPlay loop />
-                                    }
-                                </View>
-                            )
-                        }} />
-                </View>
-                <View style={styles.inputWrapper}>
-                    <TextInput
-                        value={text}
-                        onChangeText={setText}
-                        style={styles.input}
-                        multiline
-                        ref={inputRef}
-                    />
-                    <TouchableOpacity
-                        style={styles.sendButton}
-                        onPress={onPress}
-                        onLongPress={() => { setConversation([]) }}
-                    >
-                        <Send width={units.width / 20} height={units.width / 20} alignSelf={'center'} />
-                    </TouchableOpacity>
-                </View>
-                <ModelModal visibility={modalVisibility} closeModal={() => setModalVisibility(false)} />
-            </KeyboardAvoidingView>
-        </SafeAreaView>
+                    <View style={styles.chatArea}>
+                        <FlatList
+                            data={conversation}
+                            renderItem={renderChat}
+                            ref={flatListRef} // flatlisti aşağı kaydırma için gerekli
+                            ListFooterComponent={() => { // flatlist'in en altında boşluk olmasını sağlamak için
+                                return (
+                                    <View style={{ flex: 1, height: units.height / 10, marginBottom: 5 }}>
+                                        {
+                                            loading && <LottieView
+                                                source={require('../assets/animation/loading.json')} autoPlay loop />
+                                        }
+                                    </View>
+                                )
+                            }} />
+                    </View>
+
+                    <View style={styles.inputWrapper}>
+                        <TextInput
+                            value={text}
+                            onChangeText={setText}
+                            style={styles.input}
+                            multiline
+                            ref={inputRef}
+                        />
+                        <TouchableOpacity
+                            style={styles.sendButton}
+                            onPress={onPress}
+                            onLongPress={() => { setConversation([]) }}
+                        >
+                            <Send width={units.width / 20} height={units.width / 20} alignSelf={'center'} />
+                        </TouchableOpacity>
+                    </View>
+
+                </KeyboardAvoidingView>
+            </SafeAreaView>
         </>
     )
 }
@@ -138,15 +143,15 @@ export default MainScreen
 const styles = StyleSheet.create({
     topSafeArea: {
         flex: 0,
-        backgroundColor: colors.BLACK
+        backgroundColor: colors.BLACK,
     },
     safeArea: {
         flex: 1,
-        backgroundColor: "black"
+        backgroundColor: colors.BLACK,
     },
     container: {
         flex: 1,
-        backgroundColor: "black"
+        backgroundColor: colors.BLACK,
     },
     topButtonsWrapper: {
         flexDirection: "row",
@@ -155,7 +160,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         marginHorizontal: units.width / 20,
     },
-    modelModalButton :{
+    modelModalButton: {
         height: units.height / 20,
         width: units.height / 20
     },
@@ -181,7 +186,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: colors.GREEN,
         marginTop: units.height / 90,
-        backgroundColor: 'black',
+        backgroundColor: colors.BLACK,
         borderTopLeftRadius: units.height / 99,
         borderBottomLeftRadius: units.height / 99,
         marginBottom: units.height / 12,
@@ -191,7 +196,7 @@ const styles = StyleSheet.create({
     },
     input: {
         width: units.width / 1.125 - units.width / 10 - 1,
-        color: 'white',
+        color: colors.WHITE,
         paddingVertical: units.height / 200,
     },
     sendButton: {
@@ -203,7 +208,6 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         borderLeftWidth: 1
     },
-
 })
 
 
