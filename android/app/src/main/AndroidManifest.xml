@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.aiapp">
+  package="com.ekmen.aiapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
 

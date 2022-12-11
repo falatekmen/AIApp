@@ -1,4 +1,4 @@
-package com.aiapp;
+package com.ekmen.aiapp;
 
 import android.os.Bundle;
 
