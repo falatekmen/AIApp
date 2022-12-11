@@ -19,7 +19,7 @@ export default function ModelModal({visibility, closeModal}) {
     const selectedModelInRedux = useSelector(selectedModelSelector)
 
     const [selectedAI, setSelectedAI] = useState(selectedModelInRedux)
-    const [temperature, setTemperature] = useState(0.6)
+    const [temperature, setTemperature] = useState(selectedModelInRedux.temperature)
 
     const onPressSave = () => {
         // seçilen model içerisine seçilen temperature'e eklenerek reduxa gönderilir
