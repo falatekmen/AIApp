@@ -18,7 +18,10 @@ function MainNavigation() {
             >
                 <Stack.Screen name="Splash" component={Splash} />
                 <Stack.Screen name="MainScreen" component={MainScreen} />
-                <Stack.Screen name="HowItsWork" component={HowItsWork} />
+                <Stack.Screen name="HowItsWork" component={HowItsWork} options={{
+                    animationTypeForReplace: 'push',
+                    animation: 'slide_from_right'
+                }} />
             </Stack.Navigator>
         </NavigationContainer>
     );
