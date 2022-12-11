@@ -1,4 +1,4 @@
-import {units} from './Units';
+import { units } from './Units';
 
 const type = {
   regular: '',
