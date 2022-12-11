@@ -5,21 +5,21 @@ import { persistor, store } from './redux/ReduxManager';
 import MainNavigation from './navigation/MainNavigation'
 import { LogBox } from "react-native";
 
-//XNOT: Bu hatalar çözüelcek
+//XNOT: Bu hatalar çözülecek
 
 const ignoreWarns = [
-  "Require cycle",
+    "Require cycle",
 ];
 
 LogBox.ignoreLogs(ignoreWarns);
 
 function App() {
     return (
-    <Provider store={store}>
-        <PersistGate persistor={persistor}>
-            <MainNavigation />
-        </PersistGate>
-    </Provider>
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <MainNavigation />
+            </PersistGate>
+        </Provider>
     );
 }
 
