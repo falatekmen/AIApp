@@ -4,13 +4,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setKey } from '../redux/KeyRedux'
 import { setLocalization } from '../redux/LocalizationRedux'
 import { setModelsData } from '../redux/ModelsDataRedux'
-
+import AppIcon from '../assets/svgs/app-icon.svg'
+import { colors } from '../theme/Colors'
+import { units } from '../theme/Units'
 
 const Splash = ({ navigation }) => {
 
     const dispatch = useDispatch()
 
-    
+
     const data = [
         {
             name: "Davinci",
@@ -42,18 +44,18 @@ const Splash = ({ navigation }) => {
 
     setTimeout(() => {
         dispatch(setLocalization("eng")) // NOTEX: info ile teli yerini çek
-        dispatch(setKey("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"))
+        dispatch(setKey(""))
         dispatch(setModelsData(data))
         navigation.navigate("MainScreen")
     }, 500)
 
 
-    
+
 
 
     return (
         <View style={styles.container}>
-            <Text>UYGULAMA ICONU</Text>
+            <AppIcon height={units.height / 8} width={units.height / 8} />
         </View>
     )
 }
@@ -65,5 +67,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: colors.BLACK
     }
 })
