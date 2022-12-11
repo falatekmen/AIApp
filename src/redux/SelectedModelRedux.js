@@ -1,11 +1,11 @@
 // Initial State
 const INITIAL_STATE = {
     selectedModel: {
-        tempeture: 0.6,
-        description: "Very capable, but faster and lower cost than Davinci.",
-        image: "https://user-images.githubusercontent.com/81239267/206865339-ab7407b1-0d9d-44f0-856f-658709357262.png",
-        model: "text-curie-001",
-        name: "Curie"
+        tempeture: 0.2,
+        description: "Most capable GPT-3 model. Can do any task the other models can do, often with higher quality, longer output and better instruction-following. Also supports inserting completions within text.",
+        image: "https://user-images.githubusercontent.com/81239267/206864938-6388036c-93c5-4c96-9047-1bbbf32b46d8.png",
+        model: "text-davinci-003",
+        name: "Davinci"
     }
 };
 
