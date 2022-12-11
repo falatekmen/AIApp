@@ -1,3 +1,7 @@
+Yapıalcaklar:
+Kare icon eklenecek
+update zorunluluğu
+
 Not:
 1- Eğer api keyi githuba atarsan artık kullanılmaz hale gelir ve istek atıldığında aşağıdaki hata döner:
 
