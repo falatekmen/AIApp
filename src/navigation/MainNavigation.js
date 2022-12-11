@@ -2,7 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import MainScreen from '../pages/MainScreen';
+import MainScreen from '../pages/Main';
 import HowItsWork from '../pages/HowItsWork';
 import Splash from "../pages/Splash";
 import ChanceModel from "../pages/ChanceModel";
