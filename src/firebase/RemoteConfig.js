@@ -28,23 +28,18 @@ export class RemoteConfig {
         return defaultData
     }
 
-    // getAdvertAtTopParameters() {
+    async getModels() {
 
-    //     const defaultData = {
-    //         textColor: "#FFFFFF",
-    //         logoBackgroundColor: "#E5DFEB",
-    //         textBackgroundColor: "#957DAD",
-    //         text: "Akıcı İngilizce Konuş",
-    //     }
+        const defaultData = []
 
-    //     const remoteData = remoteConfig().getValue("advert_at_top")._value
+        const remoteData = await remoteConfig().getValue("models")._value
 
-    //     if (remoteData !== "") {
-    //         return JSON.parse(remoteData)
-    //     }
+        if (remoteData !== "") {
+            return JSON.parse(remoteData)
+        }
 
-    //     return defaultData
-    // }
+        return defaultData
+    }
 
     // getAdvertWithPhotoParameters() {
 
