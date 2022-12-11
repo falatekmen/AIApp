@@ -1,5 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, FlatList, SafeAreaView, KeyboardAvoidingView, Platform, BackHandler } from 'react-native'
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
+import { useFocusEffect } from '@react-navigation/native';
 import { useSelector } from "react-redux";
 import LottieView from 'lottie-react-native'
 
@@ -12,14 +13,24 @@ import { keySelector } from '../redux/KeyRedux'
 import { colors } from '../theme/Colors';
 import { selectedModelSelector } from '../redux/SelectedModelRedux';
 
+
 const MainScreen = ({ navigation }) => {
 
     //Kullanıcının bu ekrayken geri tuşuna basıp splash ekranında kalmaması için.
     //Telefonun geri tuşunu bu ekranda iptal ediyor.
-    useEffect(() => {
-        const backHandler = BackHandler.addEventListener("hardwareBackPress", () => true)
-        return () => backHandler.remove()
-    }, [])
+    useFocusEffect(
+        useCallback(() => {
+          const backAction = () => {
+            return true;
+          };
+          const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction,
+          );
+          return () => backHandler.remove();
+        }, []),
+      );
+    
 
     const [text, setText] = useState("")
     const [conversation, setConversation] = useState([])
