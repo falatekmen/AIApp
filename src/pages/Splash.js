@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setKey } from '../redux/KeyRedux'
 import { setLocalization } from '../redux/LocalizationRedux'
 import { setModelsData } from '../redux/ModelsDataRedux'
-import AppIcon from '../assets/svgs/app-icon.svg'
 import { colors } from '../theme/Colors'
 import { units } from '../theme/Units'
 import { RemoteConfig } from '../firebase/RemoteConfig'
@@ -86,7 +85,7 @@ const Splash = ({ navigation }) => {
                 dispatch(setKey(key))
 
                 dispatch(setLocalization("eng")) // NOTEX: info ile teli yerini çek
-                navigation.navigate("MainScreen")
+                // navigation.navigate("MainScreen")
             }, 1000);
         }
 
@@ -95,10 +94,12 @@ const Splash = ({ navigation }) => {
 
 
 
-
     return (
         <View style={styles.container}>
-            <AppIcon height={units.height / 8} width={units.height / 8} />
+            <Image
+                source={require("../assets/image/app-icon.png")}
+                style={styles.image}
+            />
         </View>
     )
 }
@@ -111,5 +112,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: colors.BLACK
+    },
+    image: {
+        height: units.height / 4,
+        width: units.height / 4
     }
 })
