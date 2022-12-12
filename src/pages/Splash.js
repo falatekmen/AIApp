@@ -8,6 +8,8 @@ import { colors } from '../theme/Colors'
 import { units } from '../theme/Units'
 import { RemoteConfig } from '../firebase/RemoteConfig'
 import { setSelectedModel } from '../redux/SelectedModelRedux'
+import VersionCheck from "react-native-version-check"
+
 
 const remoteConfig = new RemoteConfig()
 
@@ -61,12 +63,21 @@ const Splash = ({ navigation }) => {
     ]
 
 
-
+// Freedashboard 
+    // const appVersionCheck = () => {
+    //     VersionCheck.needUpdate()
+    //         .then(async res => {
+    //             console.log(res.isNeeded);    // true
+    //             if (res.isNeeded) {
+    //                 Linking.openURL(res.storeUrl);  // open store if update is needed.
+    //             }
+    //         })
+    // }
 
     useEffect(() => {
 
         remoteConfig.init()
-
+        // appVersionCheck()
 
         const splash = () => {
             setTimeout(async () => {
@@ -85,7 +96,7 @@ const Splash = ({ navigation }) => {
                 dispatch(setKey(key))
 
                 dispatch(setLocalization("eng")) // NOTEX: info ile teli yerini çek
-                // navigation.navigate("MainScreen")
+                navigation.navigate("MainScreen")
             }, 1000);
         }
 
@@ -96,6 +107,7 @@ const Splash = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+
             <Image
                 source={require("../assets/image/app-icon.png")}
                 style={styles.image}
