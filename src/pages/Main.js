@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, FlatList, SafeAreaView, KeyboardAvoidingView, Platform, BackHandler } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, FlatList, SafeAreaView, KeyboardAvoidingView, Platform, BackHandler, Button } from 'react-native'
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { useFocusEffect } from '@react-navigation/native';
 import { useSelector } from "react-redux";
@@ -12,7 +12,12 @@ import { getCompletion } from '../api/modelApi'
 import { keySelector } from '../redux/KeyRedux'
 import { colors } from '../theme/Colors';
 import { selectedModelSelector } from '../redux/SelectedModelRedux';
+import { AppOpenAd, InterstitialAd, RewardedAd, BannerAd, TestIds, AdEventType } from 'react-native-google-mobile-ads';
+import { adFrequencySelector } from '../redux/AdFrequencyRedux';
+import Fonts from '../theme/Fonts';
 
+// Create a new instance
+const interstitialAd = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
 
 const MainScreen = ({ navigation }) => {
 
@@ -20,30 +25,36 @@ const MainScreen = ({ navigation }) => {
     //Telefonun geri tuşunu bu ekranda iptal ediyor.
     useFocusEffect(
         useCallback(() => {
-          const backAction = () => {
-            return true;
-          };
-          const backHandler = BackHandler.addEventListener(
-            'hardwareBackPress',
-            backAction,
-          );
-          return () => backHandler.remove();
+            const backAction = () => {
+                return true;
+            };
+            const backHandler = BackHandler.addEventListener(
+                'hardwareBackPress',
+                backAction,
+            );
+            return () => backHandler.remove();
         }, []),
-      );
-    
+    );
+
 
     const [text, setText] = useState("")
     const [conversation, setConversation] = useState([])
     const [loading, setLoading] = useState(false)
-    const [modalVisibility, setModalVisibility] = useState(false)
+    const [countOfRequests, setCountOfRequests] = useState(0)
+
     const flatListRef = useRef()
     const inputRef = useRef()
 
     const selectedModelInRedux = useSelector(selectedModelSelector)
     const apiKey = useSelector(keySelector)
 
-    const onPress = async () => {
+    const adFrequency = useSelector(adFrequencySelector)
+
+
+    const onPressSend = async () => {
+
         if (text) { //bir meitn girmeden aşağıdaki işlemlerin yapılmaması için
+            setCountOfRequests(prev => prev + 1)
             inputRef.current.clear() // text inputu temizlemek için
             setLoading(true)
             setConversation(prev => [...prev, text])
@@ -61,15 +72,31 @@ const MainScreen = ({ navigation }) => {
 
             setText("")
             flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
+
         }
     }
+
+    // reklam için
+    useEffect(() => {
+        if (countOfRequests != 0 && countOfRequests % adFrequency == 0) { // çünkü 5 % 0 = 0 olduğu için true gelir ve uygulama açılır açılmaz reklam açar
+            // Add event handlers
+            interstitialAd.addAdEventsListener(({ type }) => {
+                if (type === AdEventType.LOADED) {
+                    interstitialAd.show();
+                }
+            });
+            // Load a new advert
+            interstitialAd.load();
+        }
+    }, [countOfRequests])
+
 
     const renderChat = ({ item, index }) => {
         if (index % 2 == 0) {
             return (
                 <Text
                     selectable={true}
-                    style={{ color: "white", marginHorizontal: units.width / 72, marginTop: units.height / 120 }}>
+                    style={{ color: "white", marginHorizontal: units.width / 72, marginTop: units.height / 120 ,fontSize: Fonts.size(19)}}>
                     {">"} {item}
                 </Text>
             )
@@ -77,12 +104,14 @@ const MainScreen = ({ navigation }) => {
             return (
                 <Text
                     selectable={true}
-                    style={{ color: colors.GREEN, marginHorizontal: units.width / 72 }} >
+                    style={{ color: colors.GREEN, marginHorizontal: units.width / 72, marginTop: units.height / 120 ,fontSize: Fonts.size(19)}} >
                     {">"} <Text style={{ color: "white" }} >{item} </Text>
                 </Text>
             )
         }
     }
+
+
 
     return (
         <>
@@ -136,7 +165,7 @@ const MainScreen = ({ navigation }) => {
                         />
                         <TouchableOpacity
                             style={styles.sendButton}
-                            onPress={onPress}
+                            onPress={onPressSend}
                             onLongPress={() => { setConversation([]) }}
                         >
                             <Send width={units.width / 20} height={units.width / 20} alignSelf={'center'} />
