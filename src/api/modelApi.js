@@ -9,7 +9,7 @@ export const getCompletion = async (text, key, temperature, model, max_token, st
 
     const openai = new OpenAIApi(configuration);
 
-    console.log({ text, key, temperature, model, max_token, stop })
+    // console.log({ text, key, temperature, model, max_token, stop })
     try {
         return await openai.createCompletion({
             // https://beta.openai.com/docs/quickstart/adjust-your-settings
