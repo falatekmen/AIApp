@@ -58,6 +58,9 @@ PODS:
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
   - fmt (6.2.1)
   - glog (0.3.5)
+  - Google-Mobile-Ads-SDK (9.12.0):
+    - GoogleAppMeasurement (< 11.0, >= 7.0)
+    - GoogleUserMessagingPlatform (>= 1.1)
   - GoogleAppMeasurement (10.2.0):
     - GoogleAppMeasurement/AdIdSupport (= 10.2.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
@@ -78,6 +81,7 @@ PODS:
     - GoogleUtilities/Network (~> 7.8)
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleUserMessagingPlatform (2.0.0)
   - GoogleUtilities (7.10.0):
     - GoogleUtilities/AppDelegateSwizzler (= 7.10.0)
     - GoogleUtilities/Environment (= 7.10.0)
@@ -327,6 +331,8 @@ PODS:
     - ReactCommon/turbomodule/core
   - react-native-slider (4.3.3):
     - React-Core
+  - react-native-version-check (3.4.3):
+    - React
   - React-perflogger (0.67.5)
   - React-RCTActionSheet (0.67.5):
     - React-Core/RCTActionSheetHeaders (= 0.67.5)
@@ -405,6 +411,10 @@ PODS:
     - Firebase/RemoteConfig (= 10.2.0)
     - React-Core
     - RNFBApp
+  - RNGoogleMobileAds (8.2.2):
+    - Google-Mobile-Ads-SDK (= 9.12.0)
+    - GoogleUserMessagingPlatform (= 2.0.0)
+    - React-Core
   - RNScreens (3.18.2):
     - React-Core
     - React-RCTImage
@@ -440,6 +450,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
+  - react-native-version-check (from `../node_modules/react-native-version-check`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -456,6 +467,7 @@ DEPENDENCIES:
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
+  - RNGoogleMobileAds (from `../node_modules/react-native-google-mobile-ads`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -470,7 +482,9 @@ SPEC REPOS:
     - FirebaseInstallations
     - FirebaseRemoteConfig
     - fmt
+    - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
+    - GoogleUserMessagingPlatform
     - GoogleUtilities
     - nanopb
     - PromisesObjC
@@ -518,6 +532,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-slider:
     :path: "../node_modules/@react-native-community/slider"
+  react-native-version-check:
+    :path: "../node_modules/react-native-version-check"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -550,6 +566,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBRemoteConfig:
     :path: "../node_modules/@react-native-firebase/remote-config"
+  RNGoogleMobileAds:
+    :path: "../node_modules/react-native-google-mobile-ads"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSVG:
@@ -571,7 +589,9 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfig: 5bdeadd64a042dad0f6a38fee7e017818240c3d2
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 85ecdd10ee8d8ec362ef519a6a45ff9aa27b2e85
+  Google-Mobile-Ads-SDK: b4e9efb765ef1693ae9dd94c527b6c1d91ee5052
   GoogleAppMeasurement: 3bc3a6484b7bb20dd8489242c4dd3c92a3e5107b
+  GoogleUserMessagingPlatform: ab890ce5f6620f293a21b6bdd82e416a2c73aeca
   GoogleUtilities: bad72cb363809015b1f7f19beb1f1cd23c589f95
   lottie-ios: 016449b5d8be0c3dcbcfa0a9988469999cd04c5d
   lottie-react-native: b702fab740cdb952a8e2354713d3beda63ff97b0
@@ -591,6 +611,7 @@ SPEC CHECKSUMS:
   React-logger: 85f4ef06b9723714b2dfa5b0e5502b673b271b58
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
   react-native-slider: 7d19220da2f2ae7cbb9aa80127cb73c597fa221f
+  react-native-version-check: e85c2e21d0955b7cdfd91c0ddacc3edf14b7abd7
   React-perflogger: d32ee13196f4ae2e4098fb7f8e7ed4f864c6fb0f
   React-RCTActionSheet: 81779c09e34a6a3d6b15783407ba9016a774f535
   React-RCTAnimation: b778eaaa42a884abcc5719035a7a0b2f54672658
@@ -607,10 +628,11 @@ SPEC CHECKSUMS:
   RNFBAnalytics: 7be58d245091b76071d31bc763a702b13f322b4c
   RNFBApp: a6a92a67882cde38e6b466a446312de6c6c9b384
   RNFBRemoteConfig: 31da24991af2e41b368a4277516d85fde0492ab9
+  RNGoogleMobileAds: 6e399a1b02f3d493f6b0ec7cf7f37623cc997034
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 3a79c0c4992213e4f06c08e62730c5e7b9e4dc17
   Yoga: 099a946cbf84c9b32ffdc4278d72db26710ecf92
 
-PODFILE CHECKSUM: 729a81016b1a87fad50e16abd7fbf0caa9649a69
+PODFILE CHECKSUM: 0cd8cd0c41083032a3d3261fa219930c418e387b
 
 COCOAPODS: 1.11.3
