@@ -49,12 +49,7 @@ export default function ChanceModel({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <TouchableOpacity style={styles.backButton}
-                onPress={() => {
-                    navigation.goBack()
-                }}>
-                <Back width={'70%'} height={'70%'} />
-            </TouchableOpacity>
+            
             <Text style={styles.title}>Models</Text>
             <Text style={styles.description}>
                 GPT-3 models can understand and generate natural language. There are few main models with different levels of power suitable for different tasks.
@@ -109,7 +104,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.BLACK,
-        paddingTop: units.height / 36,
         paddingHorizontal: units.width / 36
     },
     backButton: {
@@ -125,7 +119,7 @@ const styles = StyleSheet.create({
     },
     description: {
         color: colors.WHITE,
-        fontSize: Fonts.size(13),
+        fontSize: Fonts.size(19),
         marginBottom: units.height / 70,
         marginHorizontal: units.height / 70
     },
@@ -140,8 +134,8 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     modelImageWrapper: {
-        width: units.height / 8.5,
-        height: units.height / 8.5,
+        width: units.height / 8.9,
+        height: units.height / 8.9,
         backgroundColor: colors.WHITE,
         borderRadius: units.height / 72,
         marginHorizontal: units.width / 72,
@@ -154,7 +148,7 @@ const styles = StyleSheet.create({
     },
     modelName: {
         color: colors.WHITE,
-        fontSize: Fonts.size(14)
+        fontSize: Fonts.size(15)
     },
     temperatureValue: {
         color: colors.WHITE,
