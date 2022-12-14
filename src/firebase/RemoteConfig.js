@@ -2,7 +2,7 @@ import remoteConfig from '@react-native-firebase/remote-config';
 
 
 export class RemoteConfig {
-    
+
     // fetches the remote config data from firebase
     async init() {
         remoteConfig().fetch(0).then(() => {
@@ -11,7 +11,7 @@ export class RemoteConfig {
             .catch(error => { })
     }
 
-   async getKey() {
+    async getKey() {
         // default data for store review screen
         const defaultData = ""
 
@@ -41,6 +41,21 @@ export class RemoteConfig {
         return defaultData
     }
 
+    async getAdFrequency() {
+
+    
+
+        const defaultData = 5
+
+        const remoteData = await remoteConfig().getValue("ad_frequency")._value
+
+        if (remoteData !== "") {
+            return JSON.parse(remoteData)
+        }
+
+        return defaultData
+    }
+
     // getAdvertWithPhotoParameters() {
 
     //     const defaultData = {
@@ -61,6 +76,6 @@ export class RemoteConfig {
     //     return { data: defaultData, status: false }
     // }
 
-   
+
 
 }
