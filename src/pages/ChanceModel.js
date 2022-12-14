@@ -49,23 +49,29 @@ export default function ChanceModel({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            
-            <Text style={styles.title}>Models</Text>
-            <Text style={styles.description}>
-                GPT-3 models can understand and generate natural language. There are few main models with different levels of power suitable for different tasks.
-            </Text>
-            <View style={styles.flatListWrapper}>
-                <FlatList
-                    data={models}
-                    renderItem={renderModels}
-                    horizontal
-                    contentContainerStyle={styles.flatListContainer}
-                />
-            </View>
             <ScrollView>
-
+                <TouchableOpacity style={styles.backButton}
+                    onPress={() => {
+                        navigation.goBack()
+                    }}>
+                    <Back width={'70%'} height={'70%'} />
+                </TouchableOpacity>
+                <Text style={styles.title}>Models</Text>
+                <Text style={styles.description}>
+                    GPT-3 models can understand and generate natural language. There are few main models with different levels of power suitable for different tasks.
+                </Text>
+                <View style={styles.flatListWrapper}>
+                    <FlatList
+                        data={models}
+                        renderItem={renderModels}
+                        horizontal
+                        contentContainerStyle={styles.flatListContainer}
+                    />
+                </View>
                 <Text style={styles.title}>Description</Text>
-                <Text style={styles.description}>{selectedAI.description}</Text>
+                <View style={{ minHeight: units.height / 8.6 }}>
+                    <Text style={styles.description}>{selectedAI.description}</Text>
+                </View>
                 <Text style={styles.title}>Temperature</Text>
                 <Text style={styles.description}>
                     Lowering temperature means it will take fewer risks, and completions will be more accurate and deterministic. Increasing temperature will result in more diverse completions. Try 1 for a more creative answer, and 0 for a well-defined answer.
@@ -104,6 +110,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.BLACK,
+        paddingTop: units.height / 36,
         paddingHorizontal: units.width / 36
     },
     backButton: {
@@ -119,9 +126,9 @@ const styles = StyleSheet.create({
     },
     description: {
         color: colors.WHITE,
-        fontSize: Fonts.size(19),
+        fontSize: Fonts.size(15),
         marginBottom: units.height / 70,
-        marginHorizontal: units.height / 70
+        marginHorizontal: units.height / 70,
     },
     flatListWrapper: {
         marginBottom: units.height / 70
@@ -134,8 +141,8 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     modelImageWrapper: {
-        width: units.height / 8.9,
-        height: units.height / 8.9,
+        width: units.height / 8.5,
+        height: units.height / 8.5,
         backgroundColor: colors.WHITE,
         borderRadius: units.height / 72,
         marginHorizontal: units.width / 72,
@@ -148,7 +155,7 @@ const styles = StyleSheet.create({
     },
     modelName: {
         color: colors.WHITE,
-        fontSize: Fonts.size(15)
+        fontSize: Fonts.size(14)
     },
     temperatureValue: {
         color: colors.WHITE,
