@@ -2,6 +2,7 @@
   "name": "AIApp",
   "displayName": "AIApp",
   "react-native-google-mobile-ads": {
-    "android_app_id": "ca-app-pub-9947689607597373~8850146592"
+    "android_app_id": "ca-app-pub-9947689607597373~8850146592",
+    "ios_app_id": "ca-app-pub-9947689607597373~5736203561"
   }
 }
