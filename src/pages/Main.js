@@ -96,7 +96,7 @@ const MainScreen = ({ navigation }) => {
             return (
                 <Text
                     selectable={true}
-                    style={{ color: "white", marginHorizontal: units.width / 72, marginTop: units.height / 120 ,fontSize: Fonts.size(19)}}>
+                    style={{ color: "white", marginHorizontal: units.width / 72, marginTop: units.height / 120 ,fontSize: Fonts.size(17)}}>
                     {">"} {item}
                 </Text>
             )
@@ -104,7 +104,7 @@ const MainScreen = ({ navigation }) => {
             return (
                 <Text
                     selectable={true}
-                    style={{ color: colors.GREEN, marginHorizontal: units.width / 72, marginTop: units.height / 120 ,fontSize: Fonts.size(19)}} >
+                    style={{ color: colors.GREEN, marginHorizontal: units.width / 72, marginTop: units.height / 120 ,fontSize: Fonts.size(17)}} >
                     {">"} <Text style={{ color: "white" }} >{item} </Text>
                 </Text>
             )
