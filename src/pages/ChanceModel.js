@@ -22,7 +22,7 @@ export default function ChanceModel({ navigation }) {
 
     const onPressSave = () => {
         // seçilen model içerisine seçilen temperature'e eklenerek reduxa gönderilir
-        dispatch(setSelectedModel({ temperature, ...selectedAI }))
+        dispatch(setSelectedModel({ ...selectedAI, temperature }))
         navigation.goBack()
     }
 
