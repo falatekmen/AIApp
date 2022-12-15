@@ -54,7 +54,7 @@ export default function ChanceModel({ navigation }) {
                     onPress={() => {
                         navigation.goBack()
                     }}>
-                    <Back width={'70%'} height={'70%'} />
+                    <Back width={'100%'} height={'100%'} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Models</Text>
                 <Text style={styles.description}>
@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
         height: units.height / 20,
         width: units.width / 10,
         alignSelf: 'flex-start',
+        marginBottom: units.height / 80,
     },
     title: {
         color: colors.GREEN,
