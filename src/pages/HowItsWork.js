@@ -242,7 +242,7 @@ function Settings({ navigation }) {
                 onPress={() => {
                     navigation.goBack()
                 }}>
-                <Back width={'70%'} height={'70%'} />
+                <Back width={'100%'} height={'100%'} />
             </TouchableOpacity>
 
             <FlatList
