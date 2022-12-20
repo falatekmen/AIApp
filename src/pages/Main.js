@@ -16,8 +16,11 @@ import { AppOpenAd, InterstitialAd, RewardedAd, BannerAd, TestIds, AdEventType }
 import { adFrequencySelector } from '../redux/AdFrequencyRedux';
 import Fonts from '../theme/Fonts';
 
+// deev modda iken test idsi yayında iken gerçek reklam idsi kullan
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-9947689607597373~8850146592';
+
 // Create a new instance
-const interstitialAd = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
+const interstitialAd = InterstitialAd.createForAdRequest(adUnitId);
 
 const MainScreen = ({ navigation }) => {
 
