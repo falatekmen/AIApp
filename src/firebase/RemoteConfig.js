@@ -5,12 +5,11 @@ export class RemoteConfig {
 
     // fetches the remote config data from firebase
     async init() {
-        remoteConfig().fetch(0).then(() => {
+        remoteConfig().fetch(1).then(() => {
             remoteConfig().activate()
         })
             .catch(error => { })
     }
-
     async getKey() {
         // default data for store review screen
         const defaultData = ""
