@@ -15,9 +15,10 @@ import { selectedModelSelector } from '../redux/SelectedModelRedux';
 import { AppOpenAd, InterstitialAd, RewardedAd, BannerAd, TestIds, AdEventType } from 'react-native-google-mobile-ads';
 import { adFrequencySelector } from '../redux/AdFrequencyRedux';
 import Fonts from '../theme/Fonts';
+import { modelsDataSelector } from '../redux/ModelsDataRedux';
 
 // deev modda iken test idsi yayında iken gerçek reklam idsi kullan
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-9947689607597373~8850146592';
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-9947689607597373/6400781490';
 
 // Create a new instance
 const interstitialAd = InterstitialAd.createForAdRequest(adUnitId);
@@ -68,7 +69,9 @@ const MainScreen = ({ navigation }) => {
                 text,
                 apiKey,
                 selectedModelInRedux.temperature,
-                selectedModelInRedux.model
+                selectedModelInRedux.model,
+                selectedModelInRedux.max_token,
+                selectedModelInRedux.stop,
             )
             setConversation(prev => [...prev, response]) // öncekiler ile beraber yapay zekanın yazdığını setler
             setLoading(false)
@@ -99,7 +102,7 @@ const MainScreen = ({ navigation }) => {
             return (
                 <Text
                     selectable={true}
-                    style={{ color: "white", marginHorizontal: units.width / 72, marginTop: units.height / 120 ,fontSize: Fonts.size(17)}}>
+                    style={{ color: "white", marginHorizontal: units.width / 72, marginTop: units.height / 120, fontSize: Fonts.size(17) }}>
                     {">"} {item}
                 </Text>
             )
@@ -107,13 +110,12 @@ const MainScreen = ({ navigation }) => {
             return (
                 <Text
                     selectable={true}
-                    style={{ color: colors.GREEN, marginHorizontal: units.width / 72, marginTop: units.height / 120 ,fontSize: Fonts.size(17)}} >
+                    style={{ color: colors.GREEN, marginHorizontal: units.width / 72, marginTop: units.height / 120, fontSize: Fonts.size(17) }} >
                     {">"} <Text style={{ color: "white" }} >{item} </Text>
                 </Text>
             )
         }
     }
-
 
 
     return (
