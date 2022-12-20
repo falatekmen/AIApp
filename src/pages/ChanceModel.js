@@ -9,6 +9,14 @@ import Slider from '@react-native-community/slider';
 import { colors } from '../theme/Colors'
 import { selectedModelSelector, setSelectedModel } from '../redux/SelectedModelRedux'
 import Back from '../assets/svgs/back.svg'
+import { InterstitialAd, TestIds, AdEventType } from 'react-native-google-mobile-ads';
+
+// deev modda iken test idsi yayında iken gerçek reklam idsi kullan
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-9947689607597373/6400781490';
+
+// Create a new instance
+const interstitialAd = InterstitialAd.createForAdRequest(adUnitId);
+
 
 export default function ChanceModel({ navigation }) {
 
@@ -20,6 +28,7 @@ export default function ChanceModel({ navigation }) {
     const [selectedAI, setSelectedAI] = useState(selectedModelInRedux)
     const [temperature, setTemperature] = useState(selectedModelInRedux.temperature)
 
+    console.log(selectedAI, temperature)
     const onPressSave = () => {
         // seçilen model içerisine seçilen temperature'e eklenerek reduxa gönderilir
         dispatch(setSelectedModel({ ...selectedAI, temperature }))
@@ -47,15 +56,35 @@ export default function ChanceModel({ navigation }) {
         )
     }
 
+    const testAdd = () => {
+        // Add event handlers
+        interstitialAd.addAdEventsListener(({ type }) => {
+            if (type === AdEventType.LOADED) {
+                interstitialAd.show();
+            }
+        });
+        // Load a new advert
+        interstitialAd.load();
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-                <TouchableOpacity style={styles.backButton}
-                    onPress={() => {
-                        navigation.goBack()
-                    }}>
-                    <Back width={'70%'} height={'70%'} />
-                </TouchableOpacity>
+                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <TouchableOpacity style={styles.backButton}
+                        onPress={() => {
+                            navigation.goBack()
+                        }}>
+                        <Back width={'70%'} height={'70%'} />
+                    </TouchableOpacity>
+                    {
+                        selectedAI.name == "Ada" && temperature == "0.8" &&
+                        <TouchableOpacity
+                            style={{ height: 20, width: 20, backgroundColor: "black" }}
+                            onPress={testAdd}
+                        />
+                    }
+                </View>
                 <Text style={styles.title}>Models</Text>
                 <Text style={styles.description}>
                     GPT-3 models can understand and generate natural language. There are few main models with different levels of power suitable for different tasks.
