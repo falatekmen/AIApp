@@ -1,3 +1,17 @@
+
+import { View, Text, StyleSheet } from 'react-native'
+import React from 'react'
+
+import { colors } from '../theme/Colors'
+import { units } from '../theme/Units'
+import Fonts from '../theme/Fonts'
+import Brain from '../../src/assets/svgs/brain.svg'
+import Settings from '../../src/assets/svgs/settings.svg'
+import QuestionMark from '../../src/assets/svgs/questionMark.svg'
+import Send from '../../src/assets/svgs/send.svg'
+import Right from '../../src/assets/svgs/right.svg'
+
+
 export const HowDoesItWorkText = [
     {
         title: "Q&A",
@@ -204,3 +218,65 @@ export const HowDoesItWorkText = [
         answer: "1. What inspired you to write science fiction?\n2. What themes do you typically explore in your work?\n3. How has the genre of science fiction evolved over time?\n4. What do you think sets your work apart from other science fiction authors?\n5. What advice would you give to aspiring science fiction authors?\n6. What are some of the most challenging aspects of writing science fiction?\n7. How has your writing process changed over the years?\n8. What do you think is the most important thing for readers to take away from your work?"
     },
 ]
+
+export const DefaultConversationText = () => {
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>
+                Welcome to ChatGPT 3 App!
+            </Text>
+            {/* model değiştirme iconu */}
+            <View style={styles.lineWrapper}>
+                <Brain height={units.height / 25} width={units.height / 25} />
+                <Right height={units.height / 35} width={units.height / 35} style={styles.arrowIcon} />
+                <Text style={styles.description}>
+                    Change the AI model you want to respond to you here.
+                </Text>
+            </View>
+            {/* nasıl çalışır iconu */}
+            <View style={styles.lineWrapper}>
+                <QuestionMark height={units.height / 25} width={units.height / 25} />
+                <Right height={units.height / 35} width={units.height / 35} style={styles.arrowIcon} />
+                <Text style={styles.description}>
+                    Explore what's possible with some examples here.
+                </Text>
+            </View>
+            {/* gönder iconuna uzun basma */}
+            <View style={styles.lineWrapper}>
+                <Send height={units.height / 25} width={units.height / 25} />
+                <Right height={units.height / 35} width={units.height / 35} style={styles.arrowIcon} />
+                <Text style={styles.description}>
+                    Click here to send your message and long click to clear chat history.
+                </Text>
+            </View>
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingHorizontal: units.width / 36,
+        paddingTop: units.height / 40
+    },
+    title: {
+        color: colors.WHITE,
+        fontSize: Fonts.size(22),
+        marginBottom: units.height / 50,
+    },
+    lineWrapper: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: units.height / 72
+
+    },
+    description: {
+        color: colors.WHITE,
+        fontSize: Fonts.size(17),
+        flex: 1
+    },
+    arrowIcon: {
+        marginHorizontal: units.width / 60
+    }
+})
+
