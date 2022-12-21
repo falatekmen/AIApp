@@ -38,9 +38,7 @@ const Splash = ({ navigation }) => {
         navigation.navigate("MainScreen")
     }
 
-
     useEffect(() => {
-
         // remote config başlatıcısı
         remoteConfig.init()
         // versiyon kontrolü
