@@ -6,6 +6,7 @@ import MainScreen from '../pages/Main';
 import HowItsWork from '../pages/HowItsWork';
 import Splash from "../pages/Splash";
 import ChanceModel from "../pages/ChanceModel";
+import Settings from "../pages/Settings";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,10 @@ function MainNavigation() {
                     animation: 'slide_from_right'
                 }} />
                 <Stack.Screen name="ChanceModel" component={ChanceModel} options={{
+                    animationTypeForReplace: 'push',
+                    animation: 'slide_from_right'
+                }} />
+                <Stack.Screen name="Settings" component={Settings} options={{
                     animationTypeForReplace: 'push',
                     animation: 'slide_from_right'
                 }} />
