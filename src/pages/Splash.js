@@ -41,23 +41,17 @@ const Splash = ({ navigation }) => {
 
     useEffect(() => {
 
-
+        // remote config başlatıcısı
         remoteConfig.init()
-
         // versiyon kontrolü
         CheckUpdate()
-        // remote config başlatıcısı
-
         //reklam başlatıcısı
         mobileAds().initialize()
             .then(e => {
                 setTimeout(async () => {
                     await splash()
                 }, 1000);
-
             })
-
-
     }, [])
 
 

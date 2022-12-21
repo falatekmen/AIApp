@@ -129,7 +129,7 @@ const MainScreen = ({ navigation }) => {
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.howItsWorkButton}
                                 onPress={() => {
-                                    navigation.navigate("HowItsWork")
+                                    navigation.navigate("HowDoesItWork")
                                 }}>
                                 <QuestionMark width={'95%'} height={'95%'} />
                             </TouchableOpacity>

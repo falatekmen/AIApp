@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import MainScreen from '../pages/Main';
-import HowItsWork from '../pages/HowItsWork';
+import HowDoesItWork from '../pages/HowDoesItWork';
 import Splash from "../pages/Splash";
 import ChangeModel from "../pages/ChangeModel";
 import Settings from "../pages/Settings";
@@ -20,7 +20,7 @@ function MainNavigation() {
             >
                 <Stack.Screen name="Splash" component={Splash} />
                 <Stack.Screen name="MainScreen" component={MainScreen} />
-                <Stack.Screen name="HowItsWork" component={HowItsWork} options={{
+                <Stack.Screen name="HowDoesItWork" component={HowDoesItWork} options={{
                     animationTypeForReplace: 'push',
                     animation: 'slide_from_right'
                 }} />
