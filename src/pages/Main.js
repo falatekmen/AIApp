@@ -13,21 +13,28 @@ import { getCompletion } from '../api/modelApi'
 import { keySelector } from '../redux/KeyRedux'
 import { colors } from '../theme/Colors';
 import { selectedModelSelector } from '../redux/SelectedModelRedux';
-import { AppOpenAd, InterstitialAd, RewardedAd, BannerAd, TestIds, AdEventType } from 'react-native-google-mobile-ads';
 import { adFrequencySelector } from '../redux/AdFrequencyRedux';
 import Fonts from '../theme/Fonts';
-import { modelsDataSelector } from '../redux/ModelsDataRedux';
+import { ShowInterstitialAd } from '../utils/Admob';
 
-// deev modda iken test idsi yayında iken gerçek reklam idsi kullan
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-9947689607597373/6400781490';
 
-// Create a new instance
-const interstitialAd = InterstitialAd.createForAdRequest(adUnitId);
 
 const MainScreen = ({ navigation }) => {
 
-    //Kullanıcının bu ekrayken geri tuşuna basıp splash ekranında kalmaması için.
-    //Telefonun geri tuşunu bu ekranda iptal ediyor.
+    const selectedModelInRedux = useSelector(selectedModelSelector)
+    const apiKey = useSelector(keySelector)
+    const adFrequency = useSelector(adFrequencySelector)
+
+    const [text, setText] = useState("")
+    const [conversation, setConversation] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [countOfRequests, setCountOfRequests] = useState(0)
+
+    const flatListRef = useRef()
+    const inputRef = useRef()
+
+
+    // telefonun geri tuşuna basıldığında splash ekranına dönemsini engeller
     useFocusEffect(
         useCallback(() => {
             const backAction = () => {
@@ -41,32 +48,15 @@ const MainScreen = ({ navigation }) => {
         }, []),
     );
 
-
-    const [text, setText] = useState("")
-    const [conversation, setConversation] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [countOfRequests, setCountOfRequests] = useState(0)
-
-    const flatListRef = useRef()
-    const inputRef = useRef()
-
-    const selectedModelInRedux = useSelector(selectedModelSelector)
-    const apiKey = useSelector(keySelector)
-
-    const adFrequency = useSelector(adFrequencySelector)
-
-
+    // mesajı gönder buttonu
     const onPressSend = async () => {
-
-        if (text) { //bir meitn girmeden aşağıdaki işlemlerin yapılmaması için
-            setCountOfRequests(prev => prev + 1)
+        if (text) { //bir metin girmeden aşağıdaki işlemlerin yapılmaması için
+            setCountOfRequests(prev => prev + 1) // 
             inputRef.current.clear() // text inputu temizlemek için
             setLoading(true)
-            setConversation(prev => [...prev, text])
+            setConversation(prev => [...prev, text]) // öncekiler ile beraber kullanıcının yazdığını setler
             flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
-
-            // api çağrısı
-            let response = await getCompletion(
+            let response = await getCompletion( // api çağrısı
                 text,
                 apiKey,
                 selectedModelInRedux.temperature,
@@ -76,28 +66,22 @@ const MainScreen = ({ navigation }) => {
             )
             setConversation(prev => [...prev, response]) // öncekiler ile beraber yapay zekanın yazdığını setler
             setLoading(false)
-
             setText("")
             flatListRef.current.scrollToEnd() // mesaj gönderince son giden mesajı yukarı kaydırır
-
         }
     }
 
     // reklam için
     useEffect(() => {
-        if (countOfRequests != 0 && countOfRequests % adFrequency == 0) { // çünkü 5 % 0 = 0 olduğu için true gelir ve uygulama açılır açılmaz reklam açar
-            // Add event handlers
-            interstitialAd.addAdEventsListener(({ type }) => {
-                if (type === AdEventType.LOADED) {
-                    interstitialAd.show();
-                }
-            });
-            // Load a new advert
-            interstitialAd.load();
+        // countOfRequests 0 değilse (uygulamayı ilk açtığında 0 dır) ve
+        // countOfRequests'ın adFrequency'e bölümüden kalan 0 ise reklam gösterir
+        // adFrequency 5 ise ve kullanıcı 5. kez istek gönderiyorsa 5%5=0 olur)
+        if (countOfRequests != 0 && countOfRequests % adFrequency == 0) {
+            ShowInterstitialAd()
         }
     }, [countOfRequests])
 
-
+    //mesajların render edilmesi
     const renderChat = ({ item, index }) => {
         if (index % 2 == 0) {
             return (
@@ -129,15 +113,14 @@ const MainScreen = ({ navigation }) => {
                     style={styles.container}
                 >
                     <View style={styles.topButtonsWrapper}>
-                        {/* <View style={styles.topLeftButtonsWrapper}>
+                        <View style={styles.topLeftButtonsWrapper}>
                             <TouchableOpacity style={styles.settingsButton}
                                 onPress={() => {
                                     navigation.navigate("Settings")
                                 }}>
                                 <Settings width={'97%'} height={'97%'} />
                             </TouchableOpacity>
-                        </View> */}
-
+                        </View>
                         <View style={styles.topRightButtonsWrapper}>
                             <TouchableOpacity style={styles.modelModalButton}
                                 onPress={() => {
@@ -145,7 +128,6 @@ const MainScreen = ({ navigation }) => {
                                 }}>
                                 <Brain width={'90%'} height={'90%'} />
                             </TouchableOpacity>
-
                             <TouchableOpacity style={styles.howItsWorkButton}
                                 onPress={() => {
                                     navigation.navigate("HowItsWork")
@@ -154,13 +136,12 @@ const MainScreen = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-
                     <View style={styles.chatArea}>
                         <FlatList
                             data={conversation}
                             renderItem={renderChat}
                             ref={flatListRef} // flatlisti aşağı kaydırma için gerekli
-                            ListFooterComponent={() => { // flatlist'in en altında boşluk olmasını sağlamak için
+                            ListFooterComponent={() => { // flatlist'in en altında loading olması için
                                 return (
                                     <View style={{ flex: 1, height: units.height / 10, marginBottom: 5 }}>
                                         {
@@ -171,7 +152,6 @@ const MainScreen = ({ navigation }) => {
                                 )
                             }} />
                     </View>
-
                     <View style={styles.inputWrapper}>
                         <TextInput
                             value={text}
@@ -188,7 +168,6 @@ const MainScreen = ({ navigation }) => {
                             <Send width={units.width / 20} height={units.width / 20} alignSelf={'center'} />
                         </TouchableOpacity>
                     </View>
-
                 </KeyboardAvoidingView>
             </SafeAreaView>
         </>
@@ -210,27 +189,27 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.BLACK,
     },
-    // topButtonsWrapper: {
-    //     flexDirection: "row",
-    //      justifyContent: 'space-between',
-       
-    // },
-    // topLeftButtonsWrapper: {
-    //     height: units.height / 20,
-    //     marginVertical: units.height / 80,
-    //     marginHorizontal: units.width / 20,
-    //     justifyContent: 'flex-start',
-    // },
-    // settingsButton: {
-    //     height: units.height / 20,
-    //     width: units.height / 20
-    // },
+    topButtonsWrapper: {
+        flexDirection: "row",
+        justifyContent: 'space-between',
+    },
+    topLeftButtonsWrapper: {
+        height: units.height / 20,
+        marginVertical: units.height / 80,
+        marginHorizontal: units.width / 20,
+        justifyContent: 'flex-start',
+    },
+    settingsButton: {
+        height: units.height / 20,
+        width: units.height / 20,
+        display: "none"
+    },
     topRightButtonsWrapper: {
         flexDirection: "row",
         height: units.height / 20,
         marginVertical: units.height / 80,
         marginHorizontal: units.width / 20,
-        alignSelf: 'flex-end'
+        alignSelf: 'flex-end',
     },
     modelModalButton: {
         height: units.height / 20,
