@@ -228,7 +228,7 @@ export const DefaultConversationText = () => {
             {/* model değiştirme iconu */}
             <View style={styles.lineWrapper}>
                 <BrainIcon height={units.height / 25} width={units.height / 25} />
-                <RightArrow height={units.height / 35} width={units.height / 35} style={styles.arrowIcon} />
+                <RightArrowIcon height={units.height / 35} width={units.height / 35} style={styles.arrowIcon} />
                 <Text style={styles.description}>
                     Change the AI model you want to respond to you here.
                 </Text>

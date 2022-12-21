@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SafeAreaView, TouchableOpacity, FlatList, View, Modal, StyleSheet, Text } from "react-native";
 
 import { units } from "../theme/Units"
-import LeftArrow from '../../src/assets/svgs/left-arrow.svg'
+import LeftArrowIcon from '../../src/assets/svgs/left-arrow.svg'
 import Fonts from "../theme/Fonts";
 import { colors } from '../theme/Colors'
 import { HowDoesItWorkText } from "../localization/StaticTexts";
@@ -32,7 +32,7 @@ const HowDoesItWork = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.backButton} onPress={() => { navigation.goBack() }}>
-                <LeftArrow width={'100%'} height={'100%'} />
+                <LeftArrowIcon width={'100%'} height={'100%'} />
             </TouchableOpacity>
             <FlatList
                 data={HowDoesItWorkText}
@@ -70,11 +70,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.BLACK,
     },
     backButton: {
-        height: units.height / 20,
+        height: units.height / 19,
         width: units.width / 10,
-        alignSelf: 'flex-start',
-        justifyContent: "center",
-        alignItems: "center",
         marginLeft: units.height / 95,
         marginVertical: units.width / 80,
     },
