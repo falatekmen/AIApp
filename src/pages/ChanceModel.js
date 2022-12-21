@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
         height: units.height / 20,
         width: units.width / 10,
         alignSelf: 'flex-start',
+        marginBottom: units.height / 80,
     },
     title: {
         color: colors.GREEN,
