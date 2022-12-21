@@ -7,13 +7,15 @@ import { localizationReducer } from './LocalizationRedux';
 import { modelsDataReducer } from './ModelsDataRedux';
 import { selectedModelReducer } from './SelectedModelRedux';
 import { adFrequencyReducer } from './AdFrequencyRedux';
+import { isFirstLaunchReducer } from './isFirstLaunchRedux';
 
 const rootReducer = combineReducers({
     key: keyReducer,
     locale: localizationReducer,
     modelsData: modelsDataReducer,
     selectedModel: selectedModelReducer,
-    adFrequency : adFrequencyReducer
+    adFrequency: adFrequencyReducer,
+    launch: isFirstLaunchReducer
 });
 
 const persistConfig = {
