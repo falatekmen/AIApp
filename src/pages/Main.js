@@ -4,10 +4,10 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from "react-redux";
 import LottieView from 'lottie-react-native'
 
-import Brain from '../../src/assets/svgs/brain.svg'
-import Settings from '../../src/assets/svgs/settings.svg'
-import QuestionMark from '../../src/assets/svgs/questionMark.svg'
-import Send from '../../src/assets/svgs/send.svg'
+import BrainIcon from '../../src/assets/svgs/brain.svg'
+import SettingsIcon from '../../src/assets/svgs/settings.svg'
+import QuestionMarkIcon from '../../src/assets/svgs/questionMark.svg'
+import SendIcon from '../../src/assets/svgs/send.svg'
 import { units } from "../theme/Units"
 import { getCompletion } from '../api/modelApi'
 import { keySelector } from '../redux/KeyRedux'
@@ -122,7 +122,7 @@ const MainScreen = ({ navigation }) => {
                                 onPress={() => {
                                     navigation.navigate("Settings")
                                 }}>
-                                <Settings width={'97%'} height={'97%'} />
+                                <SettingsIcon width={'97%'} height={'97%'} />
                             </TouchableOpacity>
                         </View>
                         <View style={styles.topRightButtonsWrapper}>
@@ -130,13 +130,13 @@ const MainScreen = ({ navigation }) => {
                                 onPress={() => {
                                     navigation.navigate("ChangeModel")
                                 }}>
-                                <Brain width={'90%'} height={'90%'} />
+                                <BrainIcon width={'90%'} height={'90%'} />
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.howItsWorkButton}
                                 onPress={() => {
                                     navigation.navigate("HowDoesItWork")
                                 }}>
-                                <QuestionMark width={'95%'} height={'95%'} />
+                                <QuestionMarkIcon width={'95%'} height={'95%'} />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -171,7 +171,7 @@ const MainScreen = ({ navigation }) => {
                             onPress={onPressSend}
                             onLongPress={() => { setConversation([]) }}
                         >
-                            <Send width={units.width / 20} height={units.width / 20} alignSelf={'center'} />
+                            <SendIcon width={units.width / 20} height={units.width / 20} alignSelf={'center'} />
                         </TouchableOpacity>
                     </View>
                 </KeyboardAvoidingView>

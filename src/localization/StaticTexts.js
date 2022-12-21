@@ -5,11 +5,11 @@ import React from 'react'
 import { colors } from '../theme/Colors'
 import { units } from '../theme/Units'
 import Fonts from '../theme/Fonts'
-import Brain from '../../src/assets/svgs/brain.svg'
+import BrainIcon from '../../src/assets/svgs/brain.svg'
 import Settings from '../../src/assets/svgs/settings.svg'
-import QuestionMark from '../../src/assets/svgs/questionMark.svg'
-import Send from '../../src/assets/svgs/send.svg'
-import Right from '../../src/assets/svgs/right.svg'
+import QuestionMarkIcon from '../../src/assets/svgs/questionMark.svg'
+import SendIcon from '../../src/assets/svgs/send.svg'
+import RightArrowIcon from '../../src/assets/svgs/right-arrow.svg'
 
 
 export const HowDoesItWorkText = [
@@ -227,24 +227,24 @@ export const DefaultConversationText = () => {
             </Text>
             {/* model değiştirme iconu */}
             <View style={styles.lineWrapper}>
-                <Brain height={units.height / 25} width={units.height / 25} />
-                <Right height={units.height / 35} width={units.height / 35} style={styles.arrowIcon} />
+                <BrainIcon height={units.height / 25} width={units.height / 25} />
+                <RightArrow height={units.height / 35} width={units.height / 35} style={styles.arrowIcon} />
                 <Text style={styles.description}>
                     Change the AI model you want to respond to you here.
                 </Text>
             </View>
             {/* nasıl çalışır iconu */}
             <View style={styles.lineWrapper}>
-                <QuestionMark height={units.height / 25} width={units.height / 25} />
-                <Right height={units.height / 35} width={units.height / 35} style={styles.arrowIcon} />
+                <QuestionMarkIcon height={units.height / 25} width={units.height / 25} />
+                <RightArrowIcon height={units.height / 35} width={units.height / 35} style={styles.arrowIcon} />
                 <Text style={styles.description}>
                     Explore what's possible with some examples here.
                 </Text>
             </View>
             {/* gönder iconuna uzun basma */}
             <View style={styles.lineWrapper}>
-                <Send height={units.height / 25} width={units.height / 25} />
-                <Right height={units.height / 35} width={units.height / 35} style={styles.arrowIcon} />
+                <SendIcon height={units.height / 25} width={units.height / 25} />
+                <RightArrowIcon height={units.height / 35} width={units.height / 35} style={styles.arrowIcon} />
                 <Text style={styles.description}>
                     Click here to send your message and long click to clear chat history.
                 </Text>
