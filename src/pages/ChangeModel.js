@@ -8,7 +8,7 @@ import { modelsDataSelector } from '../redux/ModelsDataRedux'
 import Slider from '@react-native-community/slider';
 import { colors } from '../theme/Colors'
 import { selectedModelSelector, setSelectedModel } from '../redux/SelectedModelRedux'
-import Back from '../assets/svgs/back.svg'
+import Left from '../assets/svgs/left.svg'
 import { ShowInterstitialAd } from '../utils/Admob'
 
 
@@ -55,7 +55,7 @@ export default function ChangeModel({ navigation }) {
                         onPress={() => {
                             navigation.goBack()
                         }}>
-                        <Back width={'100%'} height={'100%'} />
+                        <Left width={'100%'} height={'100%'} />
                     </TouchableOpacity>
                     {
                         selectedAI.name == "Ada" && temperature == "0.8" &&
