@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import LottieView from 'lottie-react-native'
 
 import Brain from '../../src/assets/svgs/brain.svg'
+import Settings from '../../src/assets/svgs/settings.svg'
 import QuestionMark from '../../src/assets/svgs/questionMark.svg'
 import Send from '../../src/assets/svgs/send.svg'
 import { units } from "../theme/Units"
@@ -128,19 +129,30 @@ const MainScreen = ({ navigation }) => {
                     style={styles.container}
                 >
                     <View style={styles.topButtonsWrapper}>
-                        <TouchableOpacity style={styles.modelModalButton}
-                            onPress={() => {
-                                navigation.navigate("ChanceModel")
-                            }}>
-                            <Brain width={'90%'} height={'90%'} />
-                        </TouchableOpacity>
+                        {/* <View style={styles.topLeftButtonsWrapper}>
+                            <TouchableOpacity style={styles.settingsButton}
+                                onPress={() => {
+                                    navigation.navigate("Settings")
+                                }}>
+                                <Settings width={'97%'} height={'97%'} />
+                            </TouchableOpacity>
+                        </View> */}
 
-                        <TouchableOpacity style={styles.howItsWorkButton}
-                            onPress={() => {
-                                navigation.navigate("HowItsWork")
-                            }}>
-                            <QuestionMark width={'95%'} height={'95%'} />
-                        </TouchableOpacity>
+                        <View style={styles.topRightButtonsWrapper}>
+                            <TouchableOpacity style={styles.modelModalButton}
+                                onPress={() => {
+                                    navigation.navigate("ChanceModel")
+                                }}>
+                                <Brain width={'90%'} height={'90%'} />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={styles.howItsWorkButton}
+                                onPress={() => {
+                                    navigation.navigate("HowItsWork")
+                                }}>
+                                <QuestionMark width={'95%'} height={'95%'} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
                     <View style={styles.chatArea}>
@@ -198,16 +210,31 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.BLACK,
     },
-    topButtonsWrapper: {
+    // topButtonsWrapper: {
+    //     flexDirection: "row",
+    //      justifyContent: 'space-between',
+       
+    // },
+    // topLeftButtonsWrapper: {
+    //     height: units.height / 20,
+    //     marginVertical: units.height / 80,
+    //     marginHorizontal: units.width / 20,
+    //     justifyContent: 'flex-start',
+    // },
+    // settingsButton: {
+    //     height: units.height / 20,
+    //     width: units.height / 20
+    // },
+    topRightButtonsWrapper: {
         flexDirection: "row",
         height: units.height / 20,
         marginVertical: units.height / 80,
-        justifyContent: 'flex-end',
         marginHorizontal: units.width / 20,
+        alignSelf: 'flex-end'
     },
     modelModalButton: {
         height: units.height / 20,
-        width: units.height / 20
+        width: units.height / 20,
     },
     howItsWorkButton: {
         height: units.height / 20,
