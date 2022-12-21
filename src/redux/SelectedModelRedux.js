@@ -1,13 +1,14 @@
 // Initial State
 const INITIAL_STATE = {
     selectedModel: {
-        name: "Ada",
-        model: "text-ada-001",
-        description: "Capable of very simple tasks, usually the fastest model in the GPT-3 series, and lowest cost.",
-        image: "https://user-images.githubusercontent.com/81239267/206866218-653e2419-214c-41b3-af2f-e85e288c0c77.png",
-        tempeture: 0,
+        name: "Davinci",
+        model: "text-davinci-003",
+        description: "Most capable GPT-3 model. Can do any task the other models can do, often with higher quality, longer output and better instruction-following. Also supports inserting completions within text.",
+        image: "https://user-images.githubusercontent.com/81239267/206864938-6388036c-93c5-4c96-9047-1bbbf32b46d8.png",
         max_token: 64,
         stop: null,
+        temperature: 0.3,
+        default: false
     }
 };
 
