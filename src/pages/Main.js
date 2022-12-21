@@ -18,7 +18,6 @@ import Fonts from '../theme/Fonts';
 import { ShowInterstitialAd } from '../utils/Admob';
 
 
-
 const MainScreen = ({ navigation }) => {
 
     const selectedModelInRedux = useSelector(selectedModelSelector)
@@ -124,7 +123,7 @@ const MainScreen = ({ navigation }) => {
                         <View style={styles.topRightButtonsWrapper}>
                             <TouchableOpacity style={styles.modelModalButton}
                                 onPress={() => {
-                                    navigation.navigate("ChanceModel")
+                                    navigation.navigate("ChangeModel")
                                 }}>
                                 <Brain width={'90%'} height={'90%'} />
                             </TouchableOpacity>

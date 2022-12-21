@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import MainScreen from '../pages/Main';
 import HowItsWork from '../pages/HowItsWork';
 import Splash from "../pages/Splash";
-import ChanceModel from "../pages/ChanceModel";
+import ChangeModel from "../pages/ChangeModel";
 import Settings from "../pages/Settings";
 
 const Stack = createNativeStackNavigator();
@@ -24,7 +24,7 @@ function MainNavigation() {
                     animationTypeForReplace: 'push',
                     animation: 'slide_from_right'
                 }} />
-                <Stack.Screen name="ChanceModel" component={ChanceModel} options={{
+                <Stack.Screen name="ChangeModel" component={ChangeModel} options={{
                     animationTypeForReplace: 'push',
                     animation: 'slide_from_right'
                 }} />

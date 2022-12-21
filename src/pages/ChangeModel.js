@@ -1,26 +1,18 @@
 import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet, ScrollView, SafeAreaView } from 'react-native'
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { units } from '../theme/Units'
-import { useDispatch, useSelector } from 'react-redux'
 import Fonts from '../theme/Fonts'
 import { modelsDataSelector } from '../redux/ModelsDataRedux'
 import Slider from '@react-native-community/slider';
 import { colors } from '../theme/Colors'
 import { selectedModelSelector, setSelectedModel } from '../redux/SelectedModelRedux'
 import Back from '../assets/svgs/back.svg'
-import { InterstitialAd, TestIds, AdEventType } from 'react-native-google-mobile-ads';
-
-// deev modda iken test idsi yayında iken gerçek reklam idsi kullan
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-9947689607597373/6400781490';
-
-// Create a new instance
-const interstitialAd = InterstitialAd.createForAdRequest(adUnitId);
+import { ShowInterstitialAd } from '../utils/Admob'
 
 
-export default function ChanceModel({ navigation }) {
-
-    const dispatch = useDispatch()
+export default function ChangeModel({ navigation }) {
 
     const models = useSelector(modelsDataSelector)
     const selectedModelInRedux = useSelector(selectedModelSelector)
@@ -28,9 +20,10 @@ export default function ChanceModel({ navigation }) {
     const [selectedAI, setSelectedAI] = useState(selectedModelInRedux)
     const [temperature, setTemperature] = useState(selectedModelInRedux.temperature)
 
-    console.log(selectedAI, temperature)
+    const dispatch = useDispatch()
+
     const onPressSave = () => {
-        // seçilen model içerisine seçilen temperature'e eklenerek reduxa gönderilir
+        // seçilen model içerisine, ayrıca seçilen temperature'e eklenerek reduxa gönderilir
         dispatch(setSelectedModel({ ...selectedAI, temperature }))
         navigation.goBack()
     }
@@ -39,7 +32,6 @@ export default function ChanceModel({ navigation }) {
         return (
             <TouchableOpacity style={styles.modelWrapper} key={index} onPress={() => {
                 setSelectedAI(item)
-                // dispatch(item)
             }} >
                 <View style={[
                     styles.modelImageWrapper,
@@ -52,19 +44,7 @@ export default function ChanceModel({ navigation }) {
                 </View>
                 <Text style={styles.modelName}>{item.name}</Text>
             </TouchableOpacity>
-
         )
-    }
-
-    const testAdd = () => {
-        // Add event handlers
-        interstitialAd.addAdEventsListener(({ type }) => {
-            if (type === AdEventType.LOADED) {
-                interstitialAd.show();
-            }
-        });
-        // Load a new advert
-        interstitialAd.load();
     }
 
     return (
@@ -75,19 +55,19 @@ export default function ChanceModel({ navigation }) {
                         onPress={() => {
                             navigation.goBack()
                         }}>
-                        <Back width={'70%'} height={'70%'} />
+                        <Back width={'100%'} height={'100%'} />
                     </TouchableOpacity>
                     {
                         selectedAI.name == "Ada" && temperature == "0.8" &&
                         <TouchableOpacity
-                            style={{ height: 20, width: 20, backgroundColor: "black" }}
-                            onPress={testAdd}
+                            style={{ height: units.height / 25, width: units.height / 25 }}
+                            onPress={ShowInterstitialAd}
                         />
                     }
                 </View>
                 <Text style={styles.title}>Models</Text>
                 <Text style={styles.description}>
-                    GPT-3 models can understand and generate natural language. There are few main models with different levels of power suitable for different tasks.
+                    GPT-3 models can understand and generate natural language. There are a few main models with different levels of power suitable for different tasks.
                 </Text>
                 <View style={styles.flatListWrapper}>
                     <FlatList
@@ -98,7 +78,7 @@ export default function ChanceModel({ navigation }) {
                     />
                 </View>
                 <Text style={styles.title}>Description</Text>
-                <View style={{ minHeight: units.height / 8.6 }}>
+                <View style={{ minHeight: units.height / 8 }}>
                     <Text style={styles.description}>{selectedAI.description}</Text>
                 </View>
                 <Text style={styles.title}>Temperature</Text>
@@ -127,7 +107,7 @@ export default function ChanceModel({ navigation }) {
                     />
                     <Text style={styles.temperatureMaxMin}>1</Text>
                 </View>
-                <TouchableOpacity onPress={onPressSave}>
+                <TouchableOpacity onPress={onPressSave} style={styles.button}>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableOpacity>
             </ScrollView>
@@ -140,28 +120,27 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.BLACK,
         paddingTop: units.height / 36,
-        paddingHorizontal: units.width / 36
+        paddingHorizontal: units.width / 36,
     },
     backButton: {
         height: units.height / 20,
         width: units.width / 10,
         alignSelf: 'flex-start',
-        marginBottom: units.height / 80,
     },
     title: {
         color: colors.GREEN,
-        fontSize: Fonts.size(19),
+        fontSize: Fonts.size(18),
         fontWeight: "bold",
         marginHorizontal: units.height / 70
     },
     description: {
         color: colors.WHITE,
-        fontSize: Fonts.size(15),
+        fontSize: Fonts.size(16),
         marginBottom: units.height / 70,
         marginHorizontal: units.height / 70,
     },
     flatListWrapper: {
-        marginBottom: units.height / 70
+        marginVertical: units.height / 70
     },
     flatListContainer: {
         flexGrow: 1,
@@ -190,7 +169,7 @@ const styles = StyleSheet.create({
     temperatureValue: {
         color: colors.WHITE,
         alignSelf: "center",
-        fontSize: Fonts.size(19),
+        fontSize: Fonts.size(19)
     },
     temperatureWrapper: {
         flexDirection: "row",
@@ -204,11 +183,14 @@ const styles = StyleSheet.create({
         color: colors.WHITE,
         fontSize: Fonts.size(20)
     },
+    button: {
+        marginVertical: units.height / 50,
+        minWidth: units.width / 6,
+        alignSelf: "center",
+    },
     buttonText: {
         color: colors.GREEN,
         fontSize: Fonts.size(27),
-        alignSelf: "center",
-        padding: units.width / 95,
-        marginVertical: units.height / 50,
+        textAlign: "center",
     }
 })
