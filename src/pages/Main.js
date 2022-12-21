@@ -1,7 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, FlatList, SafeAreaView, KeyboardAvoidingView, Platform, BackHandler, Button } from 'react-native'
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { useFocusEffect } from '@react-navigation/native';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LottieView from 'lottie-react-native'
 
 import Brain from '../../src/assets/svgs/brain.svg'
@@ -14,8 +14,10 @@ import { keySelector } from '../redux/KeyRedux'
 import { colors } from '../theme/Colors';
 import { selectedModelSelector } from '../redux/SelectedModelRedux';
 import { adFrequencySelector } from '../redux/AdFrequencyRedux';
+import { isFirstLaunchSelector, setIsFirstLaunch } from '../redux/isFirstLaunchRedux';
 import Fonts from '../theme/Fonts';
 import { ShowInterstitialAd } from '../utils/Admob';
+import { DefaultConversationText } from '../localization/StaticTexts';
 
 
 const MainScreen = ({ navigation }) => {
@@ -23,6 +25,7 @@ const MainScreen = ({ navigation }) => {
     const selectedModelInRedux = useSelector(selectedModelSelector)
     const apiKey = useSelector(keySelector)
     const adFrequency = useSelector(adFrequencySelector)
+    const isFirstLaunch = useSelector(isFirstLaunchSelector)
 
     const [text, setText] = useState("")
     const [conversation, setConversation] = useState([])
@@ -32,6 +35,7 @@ const MainScreen = ({ navigation }) => {
     const flatListRef = useRef()
     const inputRef = useRef()
 
+    const dispatch = useDispatch()
 
     // telefonun geri tuşuna basıldığında splash ekranına dönemsini engeller
     useFocusEffect(
@@ -50,6 +54,7 @@ const MainScreen = ({ navigation }) => {
     // mesajı gönder buttonu
     const onPressSend = async () => {
         if (text) { //bir metin girmeden aşağıdaki işlemlerin yapılmaması için
+            dispatch(setIsFirstLaunch(false))// ilk mesajını gönderdikten sonra artık default mesajın görünmemesi için
             setCountOfRequests(prev => prev + 1) // 
             inputRef.current.clear() // text inputu temizlemek için
             setLoading(true)
@@ -86,7 +91,7 @@ const MainScreen = ({ navigation }) => {
             return (
                 <Text
                     selectable={true}
-                    style={{ color: "white", marginHorizontal: units.width / 72, marginTop: units.height / 120, fontSize: Fonts.size(17) }}>
+                    style={{ color: colors.WHITE, marginHorizontal: units.width / 72, marginTop: units.height / 120, fontSize: Fonts.size(17) }}>
                     {">"} {item}
                 </Text>
             )
@@ -95,7 +100,7 @@ const MainScreen = ({ navigation }) => {
                 <Text
                     selectable={true}
                     style={{ color: colors.GREEN, marginHorizontal: units.width / 72, marginTop: units.height / 120, fontSize: Fonts.size(17) }} >
-                    {">"} <Text style={{ color: "white" }} >{item} </Text>
+                    {">"} <Text style={{ color: colors.WHITE }} >{item} </Text>
                 </Text>
             )
         }
@@ -136,6 +141,8 @@ const MainScreen = ({ navigation }) => {
                         </View>
                     </View>
                     <View style={styles.chatArea}>
+                        {/* kullanıcı uygulamaya ilk defa girdiyse default mesaj gösterilir */}
+                        {isFirstLaunch && <DefaultConversationText />}
                         <FlatList
                             data={conversation}
                             renderItem={renderChat}
