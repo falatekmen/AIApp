@@ -119,12 +119,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.BLACK,
-        paddingTop: units.height / 36,
         paddingHorizontal: units.width / 36,
     },
     backButton: {
-        height: units.height / 20,
+        height: units.height / 19,
         width: units.width / 10,
+        marginVertical: units.width / 80,
         alignSelf: 'flex-start',
     },
     title: {
