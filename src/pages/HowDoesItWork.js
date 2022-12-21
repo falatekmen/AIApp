@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SafeAreaView, TouchableOpacity, FlatList, View, Modal, StyleSheet, Text } from "react-native";
 
 import { units } from "../theme/Units"
-import Back from '../../src/assets/svgs/back.svg'
+import Left from '../../src/assets/svgs/left.svg'
 import Fonts from "../theme/Fonts";
 import { colors } from '../theme/Colors'
 import { HowDoesItWorkText } from "../localization/StaticTexts";
@@ -32,7 +32,7 @@ const HowDoesItWork = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.backButton} onPress={() => { navigation.goBack() }}>
-                <Back width={'100%'} height={'100%'} />
+                <Left width={'100%'} height={'100%'} />
             </TouchableOpacity>
             <FlatList
                 data={HowDoesItWorkText}
