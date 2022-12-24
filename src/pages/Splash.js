@@ -42,7 +42,7 @@ const Splash = ({ navigation }) => {
         // remote config başlatıcısı
         remoteConfig.init()
         // versiyon kontrolü
-        CheckUpdate()
+        CheckUpdate() // No info about this app. uyarısı geliyor iosta
         //reklam başlatıcısı
         mobileAds().initialize()
             .then(e => {
