@@ -89,19 +89,23 @@ const MainScreen = ({ navigation }) => {
     const renderChat = ({ item, index }) => {
         if (index % 2 == 0) {
             return (
-                <Text
-                    selectable={true}
-                    style={{ color: colors.WHITE, marginHorizontal: units.width / 72, marginTop: units.height / 120, fontSize: Fonts.size(17) }}>
-                    {">"} {item}
-                </Text>
+                <View key={index}>
+                    <Text
+                        selectable={true}
+                        style={{ color: colors.WHITE, marginHorizontal: units.width / 72, marginTop: units.height / 120, fontSize: Fonts.size(17) }}>
+                        {">"} {item}
+                    </Text>
+                </View>
             )
         } else {
             return (
-                <Text
-                    selectable={true}
-                    style={{ color: colors.GREEN, marginHorizontal: units.width / 72, marginTop: units.height / 120, fontSize: Fonts.size(17) }} >
-                    {">"} <Text style={{ color: colors.WHITE }} >{item} </Text>
-                </Text>
+                <View key={index}  >
+                    <Text
+                        selectable={true}
+                        style={{ color: colors.GREEN, marginHorizontal: units.width / 72, marginTop: units.height / 120, fontSize: Fonts.size(17) }} >
+                        {">"} <Text style={{ color: colors.WHITE }} >{item} </Text>
+                    </Text>
+                </View>
             )
         }
     }
@@ -144,6 +148,7 @@ const MainScreen = ({ navigation }) => {
                         {/* kullanıcı uygulamaya ilk defa girdiyse default mesaj gösterilir */}
                         {isFirstLaunch && <DefaultConversationText />}
                         <FlatList
+                            removeClippedSubviews={false} // bunu eklemeyince, app kapanıp açıldıktan sonra metinler seçilebilir olmuyordu
                             data={conversation}
                             renderItem={renderChat}
                             ref={flatListRef} // flatlisti aşağı kaydırma için gerekli
