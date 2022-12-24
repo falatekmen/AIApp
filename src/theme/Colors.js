@@ -3,3 +3,10 @@ export const colors = {
   WHITE: '#FFFFFF',
   GREEN: '#5ff736',
 };
+
+
+// export const colors = {
+//   WHITE: '#ECEFF0',
+//   GRAY: '#363636',
+//   ORANGE: '#FF7200',
+// };
