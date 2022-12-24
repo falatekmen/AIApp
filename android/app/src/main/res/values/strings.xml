@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ChatGPT 3</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">fb268b88-573d-4822-bd7b-7016aaa5cc06</string>
+    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
+    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
 </resources>
