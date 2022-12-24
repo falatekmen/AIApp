@@ -8,6 +8,7 @@ import { modelsDataReducer } from './ModelsDataRedux';
 import { selectedModelReducer } from './SelectedModelRedux';
 import { adFrequencyReducer } from './AdFrequencyRedux';
 import { isFirstLaunchReducer } from './isFirstLaunchRedux';
+import { isReviewedReducer } from './isReviewedRedux';
 
 const rootReducer = combineReducers({
     key: keyReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     modelsData: modelsDataReducer,
     selectedModel: selectedModelReducer,
     adFrequency: adFrequencyReducer,
-    launch: isFirstLaunchReducer
+    launch: isFirstLaunchReducer,
+    review: isReviewedReducer
 });
 
 const persistConfig = {

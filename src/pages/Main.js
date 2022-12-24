@@ -18,7 +18,8 @@ import { isFirstLaunchSelector, setIsFirstLaunch } from '../redux/isFirstLaunchR
 import Fonts from '../theme/Fonts';
 import { ShowInterstitialAd } from '../utils/Admob';
 import { DefaultConversationText } from '../localization/StaticTexts';
-
+import ReviewRequest from '../utils/ReviewRequest';
+import { isReviewedSelector } from '../redux/isReviewedRedux';
 
 const MainScreen = ({ navigation }) => {
 
@@ -26,6 +27,8 @@ const MainScreen = ({ navigation }) => {
     const apiKey = useSelector(keySelector)
     const adFrequency = useSelector(adFrequencySelector)
     const isFirstLaunch = useSelector(isFirstLaunchSelector)
+    const isReviewed = useSelector(isReviewedSelector)
+
 
     const [text, setText] = useState("")
     const [conversation, setConversation] = useState([])
@@ -80,10 +83,20 @@ const MainScreen = ({ navigation }) => {
         // countOfRequests 0 değilse (uygulamayı ilk açtığında 0 dır) ve
         // countOfRequests'ın adFrequency'e bölümüden kalan 0 ise reklam gösterir
         // adFrequency 5 ise ve kullanıcı 5. kez istek gönderiyorsa 5%5=0 olur)
-        if (countOfRequests != 0 && countOfRequests % adFrequency == 0) {
-            ShowInterstitialAd()
+
+
+
+//XNOTE REF
+        if (!isReviewed && countOfRequests == 10) {
+            ReviewRequest() //storeda yorum yaptırmak için
+        } else {
+            if (countOfRequests != 0 && countOfRequests % adFrequency == 0) {
+                ShowInterstitialAd()
+            }
         }
+
     }, [countOfRequests])
+
 
     //mesajların render edilmesi
     const renderChat = ({ item, index }) => {
