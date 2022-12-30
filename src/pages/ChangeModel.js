@@ -57,13 +57,13 @@ export default function ChangeModel({ navigation }) {
                         }}>
                         <LeftArrowIcon width={'100%'} height={'100%'} />
                     </TouchableOpacity>
-                    {
+                    {/* {
                         selectedAI.name == "Ada" && temperature == "0.8" &&
                         <TouchableOpacity
                             style={{ height: units.height / 25, width: units.height / 25 }}
                             onPress={ShowInterstitialAd}
                         />
-                    }
+                    } */}
                 </View>
                 <Text style={styles.title}>Models</Text>
                 <Text style={styles.description}>

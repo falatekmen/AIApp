@@ -21,6 +21,21 @@ import { DefaultConversationText } from '../localization/StaticTexts';
 import ReviewRequest from '../utils/ReviewRequest';
 import { isReviewedSelector } from '../redux/isReviewedRedux';
 
+//https://docs.page/invertase/react-native-google-mobile-ads/displaying-ads
+//https://docs.page/invertase/react-native-google-mobile-ads/displaying-ads
+// https://docs.page/invertase/react-native-google-mobile-ads/displaying-ads
+import { InterstitialAd, TestIds, AdEventType } from 'react-native-google-mobile-ads';
+
+// deev modda iken test idsi yayında iken gerçek reklam idsi kullan
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-9947689607597373/6400781490';
+
+// Create a new instance
+const interstitialAd = InterstitialAd.createForAdRequest(adUnitId);
+
+
+
+
+
 const MainScreen = ({ navigation }) => {
 
     const selectedModelInRedux = useSelector(selectedModelSelector)
@@ -78,6 +93,15 @@ const MainScreen = ({ navigation }) => {
         }
     }
 
+
+    useEffect(() => {
+        interstitialAd.addAdEventsListener(({ type }) => {
+            if (type === AdEventType.LOADED) {
+                interstitialAd.show();
+            }
+        });
+    }, [])
+
     // reklam için
     useEffect(() => {
         // countOfRequests 0 değilse (uygulamayı ilk açtığında 0 dır) ve
@@ -85,13 +109,12 @@ const MainScreen = ({ navigation }) => {
         // adFrequency 5 ise ve kullanıcı 5. kez istek gönderiyorsa 5%5=0 olur)
 
 
-
-//XNOTE REF
+        //XNOTE REF
         if (!isReviewed && countOfRequests == 10) {
             ReviewRequest() //storeda yorum yaptırmak için
         } else {
             if (countOfRequests != 0 && countOfRequests % adFrequency == 0) {
-                ShowInterstitialAd()
+                interstitialAd.load();
             }
         }
 
