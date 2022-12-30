@@ -24,19 +24,22 @@ import { isReviewedSelector } from '../redux/isReviewedRedux';
 //https://docs.page/invertase/react-native-google-mobile-ads/displaying-ads
 //https://docs.page/invertase/react-native-google-mobile-ads/displaying-ads
 // https://docs.page/invertase/react-native-google-mobile-ads/displaying-ads
-import { InterstitialAd, TestIds, AdEventType } from 'react-native-google-mobile-ads';
+import { InterstitialAd, TestIds, AdEventType, useInterstitialAd } from 'react-native-google-mobile-ads';
 
 // deev modda iken test idsi yayında iken gerçek reklam idsi kullan
 const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-9947689607597373/6400781490';
 
 // Create a new instance
-const interstitialAd = InterstitialAd.createForAdRequest(adUnitId);
+// const interstitialAd = InterstitialAd.createForAdRequest(adUnitId);
 
 
 
 
 
 const MainScreen = ({ navigation }) => {
+
+    const { isLoaded, isClosed, load, show } = useInterstitialAd(adUnitId);
+
 
     const selectedModelInRedux = useSelector(selectedModelSelector)
     const apiKey = useSelector(keySelector)
@@ -94,13 +97,13 @@ const MainScreen = ({ navigation }) => {
     }
 
 
-    useEffect(() => {
-        interstitialAd.addAdEventsListener(({ type }) => {
-            if (type === AdEventType.LOADED) {
-                interstitialAd.show();
-            }
-        });
-    }, [])
+    // useEffect(() => {
+    //     interstitialAd.addAdEventsListener(({ type }) => {
+    //         if (type === AdEventType.LOADED) {
+    //             interstitialAd.show();
+    //         }
+    //     });
+    // }, [])
 
     // reklam için
     useEffect(() => {
@@ -114,12 +117,32 @@ const MainScreen = ({ navigation }) => {
             ReviewRequest() //storeda yorum yaptırmak için
         } else {
             if (countOfRequests != 0 && countOfRequests % adFrequency == 0) {
-                interstitialAd.load();
+                showAd()
             }
         }
 
     }, [countOfRequests])
 
+    ////
+    useEffect(() => {
+        // ilk reklamın yüklenmesi, bura toplamda 2 kere çalışır
+        load();
+    }, [load]);
+
+    useEffect(() => {
+        // reklam kapandıktan sonra yeni reklam hazırlanır
+        if (isClosed) {
+            load()
+        }
+    }, [isClosed]);
+
+    const showAd = () => {
+        if (isLoaded) {
+            show();
+        } else {
+            console.log("reklam hazır değil");
+        }
+    }
 
     //mesajların render edilmesi
     const renderChat = ({ item, index }) => {
