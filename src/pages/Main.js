@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.BLACK,
         borderTopLeftRadius: units.height / 99,
         borderBottomLeftRadius: units.height / 99,
-        marginBottom: units.height / 12,
+        marginBottom: units.height / 20,
         borderTopRightRadius: units.height / 99,
         borderBottomRightRadius: units.height / 99,
         alignSelf: "center"
