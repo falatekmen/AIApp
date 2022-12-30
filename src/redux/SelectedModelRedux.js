@@ -8,7 +8,8 @@ const INITIAL_STATE = {
         max_token: 64,
         stop: null,
         temperature: 0.3,
-        default: false
+        default: false,
+        firstOpen: true // bu sadece initial da olan bir parametre. splashte lazım oluyor
     }
 };
 
