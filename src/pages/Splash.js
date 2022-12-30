@@ -7,7 +7,7 @@ import { setModelsData } from '../redux/ModelsDataRedux'
 import { colors } from '../theme/Colors'
 import { units } from '../theme/Units'
 import { RemoteConfig } from '../firebase/RemoteConfig'
-import { setSelectedModel } from '../redux/SelectedModelRedux'
+import { selectedModelSelector, setSelectedModel } from '../redux/SelectedModelRedux'
 import mobileAds from 'react-native-google-mobile-ads';
 import { setAdFrequency } from '../redux/AdFrequencyRedux'
 import CheckUpdate from '../utils/CheckUpdate'
@@ -18,6 +18,7 @@ const remoteConfig = new RemoteConfig()
 const Splash = ({ navigation }) => {
 
     const dispatch = useDispatch()
+    const initialModel = useSelector(selectedModelSelector)
 
     const splash = async () => {
         const key = await remoteConfig.getKey()
@@ -28,8 +29,17 @@ const Splash = ({ navigation }) => {
             dispatch(setModelsData(models))
             // default=true olan modeli default model yapar, yoksa kullanıcı son seçtiği modelden devam eder
             const defaultModel = models.find(e => e.default == true)
-            if (defaultModel != undefined) {
+            const davinci = models.find(e => e.model == "text-davinci-003")
+            if (defaultModel != undefined) { // eğer bir modelin default değeri true ise onu seçili model olarak belirler
                 dispatch(setSelectedModel(defaultModel))
+            } else if (davinci) {
+                // alttaki amaç, uygulama ilk açıldığında firstOpen değeri true'dur ve remoteddaki davinci burada setlernir.
+                // çünkü onun tokeni uzaktan belirlenir. 
+                if (initialModel.firstOpen) {
+                    dispatch(setSelectedModel(davinci)) // default true model yoksa, davinci yi seçili olarak berliler. 
+                    //bunu eklemeyince defaultta reduxta belirtilen davinci seçili olur, onunda token sayısı 64
+                }
+
             }
         }
         dispatch(setAdFrequency(adFrequency))
