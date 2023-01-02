@@ -12,22 +12,22 @@ const INITIAL_STATE = {
 };
 
 // Selectors
-export const modelsDataSelector = (state) => state.modelsData.allModels
+export const allModelsSelector = (state) => state.models.allModels
 
 // Action Types
-export const SET_MODELS = "ai_set_models";
+export const SET_ALL_MODELS = "set_all_models";
 
 // Action Creators
-export const setModelsData = (allModels) => {
+export const setAllModel = (allModels) => {
     return {
-        type: SET_MODELS,
+        type: SET_ALL_MODELS,
         payload: { allModels },
     };
 }
 
-export const modelsDataReducer = (state = INITIAL_STATE, action) => {
+export const allModelsReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case SET_MODELS:
+        case SET_ALL_MODELS:
             return {
                 allModels: action.payload.allModels
             }

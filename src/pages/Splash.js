@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, Image, Alert, BackHandler, Linking } from 'react-native'
+import { View, StyleSheet, Image} from 'react-native'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setKey } from '../redux/KeyRedux'
 import { setLocalization } from '../redux/LocalizationRedux'
-import { setModelsData } from '../redux/ModelsDataRedux'
+import { setAllModel } from '../redux/AllModelsRedux'
 import { colors } from '../theme/Colors'
 import { units } from '../theme/Units'
 import { RemoteConfig } from '../firebase/RemoteConfig'
@@ -22,14 +22,14 @@ const Splash = ({ navigation }) => {
 
     const splash = async () => {
         const key = await remoteConfig.getKey()
-        const models = await remoteConfig.getModels()
+        const allModels = await remoteConfig.getModels()
         const adFrequency = await remoteConfig.getAdFrequency()
 
-        if (models.length != 0) { //model gelmezse reduxtaki default model silinmesin
-            dispatch(setModelsData(models))
+        if (allModels.length != 0) { //model gelmezse reduxtaki default model silinmesin
+            dispatch(setAllModel(allModels))
             // default=true olan modeli default model yapar, yoksa kullanıcı son seçtiği modelden devam eder
-            const defaultModel = models.find(e => e.default == true)
-            const davinci = models.find(e => e.model == "text-davinci-003")
+            const defaultModel = allModels.find(e => e.default == true)
+            const davinci = allModels.find(e => e.model == "text-davinci-003")
             if (defaultModel != undefined) { // eğer bir modelin default değeri true ise onu seçili model olarak belirler
                 dispatch(setSelectedModel(defaultModel))
             } else if (davinci) {

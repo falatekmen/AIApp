@@ -4,17 +4,16 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { units } from '../theme/Units'
 import Fonts from '../theme/Fonts'
-import { modelsDataSelector } from '../redux/ModelsDataRedux'
+import { allModelsSelector } from '../redux/AllModelsRedux'
 import Slider from '@react-native-community/slider';
 import { colors } from '../theme/Colors'
 import { selectedModelSelector, setSelectedModel } from '../redux/SelectedModelRedux'
 import LeftArrowIcon from '../assets/svgs/left-arrow.svg'
-import { ShowInterstitialAd } from '../utils/Admob'
 
 
 export default function ChangeModel({ navigation }) {
 
-    const models = useSelector(modelsDataSelector)
+    const models = useSelector(allModelsSelector)
     const selectedModelInRedux = useSelector(selectedModelSelector)
 
     const [selectedAI, setSelectedAI] = useState(selectedModelInRedux)
@@ -57,13 +56,6 @@ export default function ChangeModel({ navigation }) {
                         }}>
                         <LeftArrowIcon width={'100%'} height={'100%'} />
                     </TouchableOpacity>
-                    {/* {
-                        selectedAI.name == "Ada" && temperature == "0.8" &&
-                        <TouchableOpacity
-                            style={{ height: units.height / 25, width: units.height / 25 }}
-                            onPress={ShowInterstitialAd}
-                        />
-                    } */}
                 </View>
                 <Text style={styles.title}>Models</Text>
                 <Text style={styles.description}>

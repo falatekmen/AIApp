@@ -4,7 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 
 import { keyReducer } from './KeyRedux';
 import { localizationReducer } from './LocalizationRedux';
-import { modelsDataReducer } from './ModelsDataRedux';
+import { allModelsReducer } from './AllModelsRedux';
 import { selectedModelReducer } from './SelectedModelRedux';
 import { adFrequencyReducer } from './AdFrequencyRedux';
 import { isFirstLaunchReducer } from './isFirstLaunchRedux';
@@ -13,7 +13,7 @@ import { isReviewedReducer } from './isReviewedRedux';
 const rootReducer = combineReducers({
     key: keyReducer,
     locale: localizationReducer,
-    modelsData: modelsDataReducer,
+    models: allModelsReducer,
     selectedModel: selectedModelReducer,
     adFrequency: adFrequencyReducer,
     launch: isFirstLaunchReducer,
