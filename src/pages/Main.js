@@ -16,29 +16,26 @@ import { selectedModelSelector } from '../redux/SelectedModelRedux';
 import { adFrequencySelector } from '../redux/AdFrequencyRedux';
 import { isFirstLaunchSelector, setIsFirstLaunch } from '../redux/isFirstLaunchRedux';
 import Fonts from '../theme/Fonts';
-import { ShowInterstitialAd } from '../utils/Admob';
 import { DefaultConversationText } from '../localization/StaticTexts';
 import ReviewRequest from '../utils/ReviewRequest';
 import { isReviewedSelector } from '../redux/isReviewedRedux';
 
-//https://docs.page/invertase/react-native-google-mobile-ads/displaying-ads
-//https://docs.page/invertase/react-native-google-mobile-ads/displaying-ads
-// https://docs.page/invertase/react-native-google-mobile-ads/displaying-ads
-import { InterstitialAd, TestIds, AdEventType, useInterstitialAd } from 'react-native-google-mobile-ads';
 
+// admob
+// import { InterstitialAd, TestIds, AdEventType, useInterstitialAd } from 'react-native-google-mobile-ads';
+
+// admob
 // deev modda iken test idsi yayında iken gerçek reklam idsi kullan
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-9947689607597373/6400781490';
+// const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-9947689607597373/6400781490';
 
-// Create a new instance
-// const interstitialAd = InterstitialAd.createForAdRequest(adUnitId);
-
-
+ 
 
 
 
 const MainScreen = ({ navigation }) => {
 
-    const { isLoaded, isClosed, load, show } = useInterstitialAd(adUnitId);
+    // admob
+    // const { isLoaded, isClosed, load, show } = useInterstitialAd(adUnitId);
 
 
     const selectedModelInRedux = useSelector(selectedModelSelector)
@@ -97,52 +94,40 @@ const MainScreen = ({ navigation }) => {
     }
 
 
-    // useEffect(() => {
-    //     interstitialAd.addAdEventsListener(({ type }) => {
-    //         if (type === AdEventType.LOADED) {
-    //             interstitialAd.show();
-    //         }
-    //     });
-    // }, [])
-
-    // reklam için
+ 
     useEffect(() => {
-        // countOfRequests 0 değilse (uygulamayı ilk açtığında 0 dır) ve
-        // countOfRequests'ın adFrequency'e bölümüden kalan 0 ise reklam gösterir
-        // adFrequency 5 ise ve kullanıcı 5. kez istek gönderiyorsa 5%5=0 olur)
-
-
         //XNOTE REF
         if (!isReviewed && countOfRequests == 10) {
             ReviewRequest() //storeda yorum yaptırmak için
         } else {
             if (countOfRequests != 0 && countOfRequests % adFrequency == 0) {
-                showAd()
+                // //admob
+                // showAd()
             }
         }
 
     }, [countOfRequests])
 
-    ////
-    useEffect(() => {
-        // ilk reklamın yüklenmesi, bura toplamda 2 kere çalışır
-        load();
-    }, [load]);
 
-    useEffect(() => {
-        // reklam kapandıktan sonra yeni reklam hazırlanır
-        if (isClosed) {
-            load()
-        }
-    }, [isClosed]);
+    // useEffect(() => {
+    //     // ilk reklamın yüklenmesi, bura toplamda 2 kere çalışır
+    //     load();
+    // }, [load]);
 
-    const showAd = () => {
-        if (isLoaded) {
-            show();
-        } else {
-            console.log("reklam hazır değil");
-        }
-    }
+    // useEffect(() => {
+    //     // reklam kapandıktan sonra yeni reklam hazırlanır
+    //     if (isClosed) {
+    //         load()
+    //     }
+    // }, [isClosed]);
+
+    // const showAd = () => {
+    //     if (isLoaded) {
+    //         show();
+    //     } else {
+    //         console.log("reklam hazır değil");
+    //     }
+    // }
 
     //mesajların render edilmesi
     const renderChat = ({ item, index }) => {
