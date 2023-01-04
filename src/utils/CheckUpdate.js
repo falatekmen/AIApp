@@ -9,7 +9,7 @@ export default CheckUpdate = async () => {
             if (response && response.isNeeded) {
                 Alert.alert(
                     "Please Update",
-                    "You will have to update your app to the latest version to continue using it.\nIf you don't see the new app in the store, please wait a few minutes and try again later.",
+                    "The new version of the application is ready.\n\nIf you don't see the new app in the store, please wait a few minutes and try again later.",
                     [
                         {
                             text: "Update",
