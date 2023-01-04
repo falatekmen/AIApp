@@ -42,7 +42,7 @@ export class RemoteConfig {
 
     async getAdFrequency() {
 
-    
+
 
         const defaultData = 5
 
@@ -53,6 +53,16 @@ export class RemoteConfig {
         }
 
         return defaultData
+    }
+
+
+    getForceUpdate() {
+        const remoteData = remoteConfig().getValue("force_update")._value
+
+        if (remoteData !== "") {
+            return remoteData
+        }
+        return "false"
     }
 
     // getAdvertWithPhotoParameters() {
