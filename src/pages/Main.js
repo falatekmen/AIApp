@@ -309,6 +309,7 @@ const MainScreen = ({ navigation }) => {
                             style={styles.sendButton}
                             onPress={onPressSend}
                             onLongPress={() => { setConversation([]) }}
+                            disabled={loading}
                         >
                             <SendIcon width={units.width / 20} height={units.width / 20} alignSelf={'center'} />
                         </TouchableOpacity>
