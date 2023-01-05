@@ -19,6 +19,9 @@ import Fonts from '../theme/Fonts';
 import { DefaultConversationText } from '../localization/StaticTexts';
 import ReviewRequest from '../utils/ReviewRequest';
 import { isReviewedSelector } from '../redux/isReviewedRedux';
+import AppLovinMAX from "react-native-applovin-max";
+import CheckUpdate from '../utils/CheckUpdate';
+import { RemoteConfig } from '../firebase/RemoteConfig';
 
 
 // admob
@@ -28,7 +31,8 @@ import { isReviewedSelector } from '../redux/isReviewedRedux';
 // deev modda iken test idsi yayında iken gerçek reklam idsi kullan
 // const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-9947689607597373/6400781490';
 
- 
+
+const remoteConfig = new RemoteConfig()
 
 
 
@@ -54,6 +58,17 @@ const MainScreen = ({ navigation }) => {
     const inputRef = useRef()
 
     const dispatch = useDispatch()
+
+
+    useEffect(() => {
+        const isForceUpdate = remoteConfig.getForceUpdate() // güncellemeye zorlamak için
+
+        if (isForceUpdate == "true") {
+            CheckUpdate() // No info about this app. uyarısı geliyor iosta
+        }
+    }, [])
+
+
 
     // telefonun geri tuşuna basıldığında splash ekranına dönemsini engeller
     useFocusEffect(
@@ -94,7 +109,7 @@ const MainScreen = ({ navigation }) => {
     }
 
 
- 
+
     useEffect(() => {
         //XNOTE REF
         if (!isReviewed && countOfRequests == 10) {
@@ -103,6 +118,9 @@ const MainScreen = ({ navigation }) => {
             if (countOfRequests != 0 && countOfRequests % adFrequency == 0) {
                 // //admob
                 // showAd()
+
+                // applovin
+                showInterstitial()
             }
         }
 
@@ -155,8 +173,80 @@ const MainScreen = ({ navigation }) => {
     }
 
 
+
+
+
+    // applovin
+
+
+    const INTERSTITIAL_AD_UNIT_ID = Platform.select({
+        android: '6dae40785a63e151',
+        ios: 'YOUR_IOS_INTERSTITIAL_AD_UNIT_ID',
+    });
+
+    const [retryAttempt, setRetryAttempt] = useState(0);
+
+    function loadInterstitial() {
+        AppLovinMAX.loadInterstitial(INTERSTITIAL_AD_UNIT_ID);
+    }
+
+    function initializeInterstitialAds() {
+        AppLovinMAX.addEventListener('OnInterstitialLoadedEvent', () => {
+            // Interstitial ad is ready to be shown. AppLovinMAX.isInterstitialReady(INTERSTITIAL_AD_UNIT_ID) will now return 'true'
+
+            // Reset retry attempt
+            setRetryAttempt(0)
+        });
+        AppLovinMAX.addEventListener('OnInterstitialLoadFailedEvent', () => {
+            // Interstitial ad failed to load 
+            // We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds)
+
+            setRetryAttempt(retryAttempt + 1);
+            var retryDelay = Math.pow(2, Math.min(6, retryAttempt));
+
+            console.log('Interstitial ad failed to load - retrying in ' + retryDelay + 's');
+
+            setTimeout(function () {
+                loadInterstitial();
+            }, retryDelay * 1000);
+        });
+        AppLovinMAX.addEventListener('OnInterstitialClickedEvent', () => { console.log("reklama tıklandı") });
+        AppLovinMAX.addEventListener('OnInterstitialDisplayedEvent', () => { console.log("reklam açıldı") });
+        AppLovinMAX.addEventListener('OnInterstitialAdFailedToDisplayEvent', () => {
+            // Interstitial ad failed to display. We recommend loading the next ad
+            loadInterstitial();
+            console.log("OnInterstitialAdFailedToDisplayEvent")
+        });
+        AppLovinMAX.addEventListener('OnInterstitialHiddenEvent', () => {
+            loadInterstitial();
+            console.log("reklam kapatıldı")
+
+        });
+
+        // Load the first interstitial
+        loadInterstitial();
+    }
+
+
+    useEffect(() => {
+        // splashte applovin initializerda yazdığı gibi , sdk başlatıldıktan 5 sn sonra ilk reklam yüklendi
+        setTimeout(() => {
+            initializeInterstitialAds()
+        }, 5000);
+    }, [])
+
+    const showInterstitial = () => {
+        if (AppLovinMAX.isInterstitialReady(INTERSTITIAL_AD_UNIT_ID)) {
+            AppLovinMAX.showInterstitial(INTERSTITIAL_AD_UNIT_ID);
+        }
+    }
+
+
+
+
     return (
         <>
+
             <SafeAreaView style={styles.topSafeArea} />
             <SafeAreaView style={styles.safeArea} >
                 <StatusBar barStyle="light-content" backgroundColor="black" />
