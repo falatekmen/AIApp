@@ -6326,6 +6326,11 @@ react-is@^17.0.1, react-is@^17.0.2:
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-applovin-max@^4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-applovin-max/-/react-native-applovin-max-4.1.4.tgz#cfd6c6239a272f288c51b1bee7ab1d8090be274d"
+  integrity sha512-l/9KKiW0AawqQAtrtjjQsSFDoBWQ07DFcciO6Y830tFjbMZwSCdlg6wKCPTx3Qd25WgA04W8mU5zxY4UO6IXXw==
+
 react-native-code-push@^7.0.5:
   version "7.0.5"
   resolved "https://registry.npmjs.org/react-native-code-push/-/react-native-code-push-7.0.5.tgz"

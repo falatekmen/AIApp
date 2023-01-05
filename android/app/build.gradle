@@ -1,6 +1,10 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'applovin-quality-service'
+applovin {
+    apiKey "ItwvuuCTI8tgEM_35KONH1xN80x03URv34HUb9KAiS5DbF5rvmbAx0aS8SC7QiKA2JygJrWFBePN3DkrXFRLtp"    
+}
 
 import com.android.build.OutputFile
 
@@ -145,8 +149,8 @@ android {
         applicationId "com.ekmen.aiapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 11
-        versionName "1.0.10"
+        versionCode 12
+        versionName "1.0.11"
     }
     splits {
         abi {
