@@ -70,7 +70,10 @@ const Splash = ({ navigation }) => {
         //             await splash()
         //         }, 1000);
         //     })
-        splash()
+        
+        setTimeout(async () => {
+            await splash()
+        }, 1000);
 
     }, [])
 
