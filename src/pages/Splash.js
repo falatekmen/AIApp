@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image} from 'react-native'
+import { View, StyleSheet, Image } from 'react-native'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setKey } from '../redux/KeyRedux'
@@ -8,9 +8,10 @@ import { colors } from '../theme/Colors'
 import { units } from '../theme/Units'
 import { RemoteConfig } from '../firebase/RemoteConfig'
 import { selectedModelSelector, setSelectedModel } from '../redux/SelectedModelRedux'
-import mobileAds from 'react-native-google-mobile-ads';
+// import mobileAds from 'react-native-google-mobile-ads';
 import { setAdFrequency } from '../redux/AdFrequencyRedux'
 import CheckUpdate from '../utils/CheckUpdate'
+import AppLovinMAX from "react-native-applovin-max";
 
 
 const remoteConfig = new RemoteConfig()
@@ -49,17 +50,28 @@ const Splash = ({ navigation }) => {
     }
 
     useEffect(() => {
+
+        // applovin başlatıcısı
+        // AppLovin recommends that you load ads during the window from 2–5 seconds after you initialize the SDK.
+        AppLovinMAX.initialize("0h5xJAFXostbtQTKGweFkvQfI03rW63G9Xaz6PZlcLJrK2gDLmIkTLWZ8aRRM8yW0Vq9mLsGOWGuTBJe2JCofq", (configuration) => {
+            // SDK is initialized, start loading ads
+        });
+
+
         // remote config başlatıcısı
         remoteConfig.init()
         // versiyon kontrolü
-        CheckUpdate() // No info about this app. uyarısı geliyor iosta
-        //reklam başlatıcısı
-        mobileAds().initialize()
-            .then(e => {
-                setTimeout(async () => {
-                    await splash()
-                }, 1000);
-            })
+
+        // //admob
+        // //reklam başlatıcısı
+        // mobileAds().initialize()
+        //     .then(e => {
+        //         setTimeout(async () => {
+        //             await splash()
+        //         }, 1000);
+        //     })
+        splash()
+
     }, [])
 
 
