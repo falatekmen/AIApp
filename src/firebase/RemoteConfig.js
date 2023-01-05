@@ -15,7 +15,7 @@ export class RemoteConfig {
         const defaultData = ""
 
         // get data for store review screen from remote config
-        const remoteData = await remoteConfig().getValue("keys")._value
+        const remoteData = await remoteConfig().getValue("keyz")._value
 
         // if the data was taken from the remote config, return remoteData
         if (remoteData !== "") {
