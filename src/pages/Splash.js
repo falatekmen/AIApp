@@ -12,6 +12,10 @@ import { selectedModelSelector, setSelectedModel } from '../redux/SelectedModelR
 import { setAdFrequency } from '../redux/AdFrequencyRedux'
 import CheckUpdate from '../utils/CheckUpdate'
 import AppLovinMAX from "react-native-applovin-max";
+import { setAiErrorMessage } from '../redux/AiErrorMessageRedux'
+import messaging from "@react-native-firebase/messaging"
+import { pushNotification } from '../firebase/PushNotification'
+
 
 
 const remoteConfig = new RemoteConfig()
@@ -22,9 +26,14 @@ const Splash = ({ navigation }) => {
     const initialModel = useSelector(selectedModelSelector)
 
     const splash = async () => {
+        
+        // const allParams = remoteConfig.getAll()
+
         const key = await remoteConfig.getKey()
         const allModels = await remoteConfig.getModels()
         const adFrequency = await remoteConfig.getAdFrequency()
+        const isForceUpdate = await remoteConfig.getForceUpdate() // güncellemeye zorlamak için
+        const aiErrorMessage = await remoteConfig.getAiErrorMessage()
 
         if (allModels.length != 0) { //model gelmezse reduxtaki default model silinmesin
             dispatch(setAllModel(allModels))
@@ -43,6 +52,12 @@ const Splash = ({ navigation }) => {
 
             }
         }
+
+        if (isForceUpdate == true) {
+            CheckUpdate() // XNOTE: No info about this app. uyarısı geliyor iosta
+        }
+
+        dispatch(setAiErrorMessage(aiErrorMessage))
         dispatch(setAdFrequency(adFrequency))
         dispatch(setKey(key))
         dispatch(setLocalization("eng")) // NOTEX: info ile teli yerini çek
@@ -51,10 +66,12 @@ const Splash = ({ navigation }) => {
 
     useEffect(() => {
 
+ 
+        pushNotification()
+
         // applovin başlatıcısı
         // AppLovin recommends that you load ads during the window from 2–5 seconds after you initialize the SDK.
         AppLovinMAX.initialize("0h5xJAFXostbtQTKGweFkvQfI03rW63G9Xaz6PZlcLJrK2gDLmIkTLWZ8aRRM8yW0Vq9mLsGOWGuTBJe2JCofq", (configuration) => {
-            // SDK is initialized, start loading ads
         });
 
 
@@ -70,10 +87,10 @@ const Splash = ({ navigation }) => {
         //             await splash()
         //         }, 1000);
         //     })
-        
+
         setTimeout(async () => {
             await splash()
-        }, 1000);
+        }, 2500);
 
     }, [])
 
