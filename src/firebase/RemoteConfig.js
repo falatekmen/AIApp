@@ -10,20 +10,22 @@ export class RemoteConfig {
         })
             .catch(error => { })
     }
-    async getKey() {
-        // default data for store review screen
-        const defaultData = ""
 
-        // get data for store review screen from remote config
+    getAll() {
+        const allParams = remoteConfig().getAll()
+        return allParams
+    }
+
+
+    async getKey() {
+
+        const defaultData = ""
         const remoteData = await remoteConfig().getValue("keyz")._value
 
-        // if the data was taken from the remote config, return remoteData
         if (remoteData !== "") {
             return JSON.parse(remoteData)
         }
 
-        // if data is not retrieved from remote config, nothing returns on top, 
-        // default data return on the bottom
         return defaultData
     }
 
@@ -42,8 +44,6 @@ export class RemoteConfig {
 
     async getAdFrequency() {
 
-
-
         const defaultData = 5
 
         const remoteData = await remoteConfig().getValue("ad_frequency")._value
@@ -56,13 +56,35 @@ export class RemoteConfig {
     }
 
 
-    getForceUpdate() {
-        const remoteData = remoteConfig().getValue("force_update")._value
+    async getForceUpdate() {
+        const defaultData = false
+
+        const remoteData = await remoteConfig().getValue("force_update")._value
 
         if (remoteData !== "") {
-            return remoteData
+            return JSON.parse(remoteData)
         }
-        return "false"
+        return defaultData
+    }
+
+    async getInfoModal() {
+        const remoteData = await remoteConfig().getValue("info_modal")._value
+
+        const defaultData = { visibility: true, index: 0, title: "Welcome", description: "Please contact us by email ekmendev@gmail.com for the errors you encounter in the application and the features you want to be added." }
+
+        if (remoteData !== "") {
+            return JSON.parse(remoteData)
+        }
+        return defaultData
+    }
+
+    async getAiErrorMessage() {
+        const remoteData = await remoteConfig().getValue("ai_error_message")._value
+
+        if (remoteData !== "") {
+            return JSON.parse(remoteData)
+        }
+        return "The system is currently under maintenance. Please restart the application after waiting a few minutes."
     }
 
     // getAdvertWithPhotoParameters() {
