@@ -40,9 +40,13 @@ export default function ChangeModel({ navigation }) {
                         style={styles.modelImage}
                         source={{ uri: item.image }}
                     />
+                    {item.is_online == false && <View style={styles.offlineWrapper}>
+                        <Text style={styles.offlineText}
+                        > OFFLINE</Text>
+                    </View>}
                 </View>
                 <Text style={styles.modelName}>{item.name}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity >
         )
     }
 
@@ -153,6 +157,19 @@ const styles = StyleSheet.create({
     modelImage: {
         width: units.height / 9.5,
         height: units.height / 9.5
+    },
+    offlineWrapper: {
+        position: "absolute",
+        width: units.height / 8.5,
+        borderWidth: 1,
+        borderColor: colors.BLACK,
+        backgroundColor: colors.WHITE,
+    },
+    offlineText: {
+        color: colors.RED,
+        fontSize: Fonts.size(16),
+        alignSelf: "center",
+        fontWeight: "bold"
     },
     modelName: {
         color: colors.WHITE,
