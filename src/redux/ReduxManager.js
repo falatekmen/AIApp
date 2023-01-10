@@ -9,6 +9,8 @@ import { selectedModelReducer } from './SelectedModelRedux';
 import { adFrequencyReducer } from './AdFrequencyRedux';
 import { isFirstLaunchReducer } from './isFirstLaunchRedux';
 import { isReviewedReducer } from './isReviewedRedux';
+import { infoModaleducer } from './InfoModalRedux';
+import { aiErrorMessageReducer } from './AiErrorMessageRedux';
 
 const rootReducer = combineReducers({
     key: keyReducer,
@@ -17,7 +19,9 @@ const rootReducer = combineReducers({
     selectedModel: selectedModelReducer,
     adFrequency: adFrequencyReducer,
     launch: isFirstLaunchReducer,
-    review: isReviewedReducer
+    review: isReviewedReducer,
+    infoModal: infoModaleducer,
+    aiErrorMessage: aiErrorMessageReducer
 });
 
 const persistConfig = {
