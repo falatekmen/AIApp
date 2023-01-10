@@ -9,7 +9,9 @@ const INITIAL_STATE = {
         stop: null,
         temperature: 0.3,
         default: false,
-        firstOpen: true // bu sadece initial da olan bir parametre. splashte lazım oluyor
+        firstOpen: true, // bu sadece initial da olan bir parametre. splashte lazım oluyor
+        is_online: true,
+
     }
 };
 
