@@ -12,7 +12,6 @@ const ReviewRequest = (dispatch) => {
         InAppReview.RequestInAppReview()
             .then((hasFlowFinishedSuccessfully) => {
                 if (hasFlowFinishedSuccessfully) {
-                    console.log("setledi")
                     dispatch(setIsReviewed(true))
                 }
             })
