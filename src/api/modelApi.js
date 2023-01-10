@@ -1,10 +1,21 @@
 import { Configuration, OpenAIApi } from "openai"
 
 
-export const getCompletion = async (text, key, temperature, model, max_token, stop) => {
+export const getCompletion = async (
+    text,
+    key,
+    temperature,
+    model,
+    max_token,
+    stop,
+    is_online,
+    custom_error_message,
+    generalErrorMessage
+) => {
 
     const configuration = new Configuration({
-        apiKey: key,
+        // remote configten gelen is_online false ise, istek atarken hata vermesi için
+        apiKey: is_online ? key : "xxx",
     });
 
     const openai = new OpenAIApi(configuration);
@@ -30,7 +41,9 @@ export const getCompletion = async (text, key, temperature, model, max_token, st
 
     } catch (error) {
         console.log(error) //XNOTE analyticse bu erroru gönder
-        return "The system is currently under maintenance. Please wait a few minutes and try again later."
+        // modelin is_online değeri false olduğunda gösterilecek hata mesajı ayrı
+        // genel problemden kaynaklı gösterilecek hata mesajı ayrıdır
+        return is_online ? generalErrorMessage : custom_error_message
     }
 
 }
